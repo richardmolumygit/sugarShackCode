@@ -81,28 +81,25 @@
       </style>
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const inputField = document.getElementById('qtyInput'); // Replace with your input's ID
-            const qtyCheck = document.getElementById('qtyCheck'); // Replace with your checkbox's ID
+            const qtyInput = document.getElementById('qtyInput');
+            const radioButtons = document.querySelectorAll('input[name="qtyCheck"]');
 
-            inputField.addEventListener('focus', function() {
-                if (qtyCheck.checked) {
-                    qtyCheck.checked = false;
-                }
+            // Event listener for input box focus
+            qtyInput.addEventListener('focus', function() {
+                radioButtons.forEach(radio => {
+                    radio.checked = false; // Uncheck all radio buttons in the group
+                });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputField = document.getElementById('qtyInput'); // Replace with your input's ID
-            const qtyCheck = document.getElementById('qtyCheck'); // Replace with your checkbox's ID
-
-
-            qtyCheck.addEventListener('change', function() {
-                if (qtyCheck.checked) {
-                    qtyInput.value = ''; // Set input value to empty string
-                }
+            // Event listener for radio button change
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) { // Only clear if this radio button is actually selected
+                        qtyInput.value = ''; // Clear the input field
+                    }
+                });
             });
-        });
-
+        });  
       </script>
       <table border=1>
         <form id='addToCart' action="details.php" method="post" target="_blank">
@@ -130,7 +127,7 @@
               </p>
             </td>
             <td width='20%'>
-              <input type=number id='qtyInput' name='qty' style='width: 40px' onfocus='unselect()'><label for qty>Quantity</label></br>
+              <input type=number value=0 id='qtyInput' name='qty' style='width: 40px' onfocus='unselect()'><label for qty>Quantity</label></br>
               <input type='radio' id='qty2' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
               <input type='radio' id='qty3' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
               <input type='radio' id='qty4' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
