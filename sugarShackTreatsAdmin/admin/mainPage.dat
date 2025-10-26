@@ -1,0 +1,20 @@
+      <link rel="stylesheet" type="text/css" href="css/hover.css">
+      <table>
+        <tr>
+          <td colspan="4"><h2>Sugar Shack Treats</h2></td>
+        </tr>
+        <tr>
+          <td align=center>Homemade Biscoff biscuit</td>
+          <td align=center>Mexican Hot Chocolate</td>
+        </tr>
+        TR_BEGIN
+        <tr>
+          <td colspan="4">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="4">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+        </tr>
+        <tr>
+          <td colspan="4"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
+        </tr>
+      </table>

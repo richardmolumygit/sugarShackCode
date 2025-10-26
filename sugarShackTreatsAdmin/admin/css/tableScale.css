@@ -1,0 +1,11 @@
+table {
+  width: 100%; /* Makes the table occupy the full width of its parent container */
+  table-layout: auto; /* Enables automatic column width adjustment based on content */
+  border-collapse: collapse; /* Optional: for cleaner borders */
+}
+
+th, td {
+//  border: 1px solid black; /* Optional: for visible cell borders */
+  padding: 8px; /* Optional: for spacing within cells */
+  text-align: left; /* Optional: for left-aligned text */
+}

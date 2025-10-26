@@ -1,0 +1,47 @@
+          .project_item {
+	    position: relative;
+	  }
+	  
+	  .project_item:hover > .thumb_title {
+	    opacity: 1;
+	    transition: .3s;
+	  }
+	  
+	  .project_item:hover > img {
+	    opacity: .3;
+	    transition: .3s;
+	  }
+	  	  
+	  .project_item img {
+	    display: block;
+	    margin: 0 auto;
+	    opacity: 1;
+	    transition: .3s;
+	  }
+	  
+	  .thumb_title {
+	    width: 100%;
+	    text-align: center;
+	    opacity: 0;
+	    transition: .3s;
+	  }
+ 
+	  .thumb_title h4 {
+	    position: absolute;
+	    top: calc(10% - 18.5px); /* Halfway from the top - half of the height of the text   */
+	    left: calc(30% - 61px); /* Halfway from the left - half of the width of the text   */
+          }
+	  
+	  .text_title {
+	     position: absolute;
+	     top: 100%;
+	     left: calc(30% - 61px);
+	  }
+	  .txtimg {
+	    display: inline-block;
+	    text-align: center;
+	  }
+
+	  .txtimg>img {
+	    display: block;
+	  }

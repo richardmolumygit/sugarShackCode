@@ -1,0 +1,41 @@
+<?php
+  $targetFile = "links.csv";
+
+//  $tdFileName = "C:\xampp\htdocs\sugarShackTreatsAdmin\td_details.dat";
+//  $tdFileNameDetails = fopen($tdFileName, "r") or die("Unable to open ".$tdFileName." file!");
+  $rightNavFileName = "C:\Users\Rich\Documents\sugarshacktreats\local\rightnav.html";
+  $myfile = fopen("C:\Users\Rich\Documents\sugarshacktreats\local\rightnav.html", "w") or die("Unable to open ".$rightNavFileName." file!");
+  $lines = file($targetFile, FILE_IGNORE_NEW_LINES);	// he FILE_IGNORE_NEW_LINES flag ensures that no newline characters are appended at the end of each line
+  $count = 0;
+  $column = []; // create an array
+  $nbrLines = 0;
+  $outLineNbr = 0;
+  foreach($lines as $line) {
+    list($link,$name,$description,$disclaimer) = explode(",",$line);
+    if ($nbrLines > 1) {
+    }
+    $txt1 = "<img src=\"images/".$href."\" alt=\"".$name."\"/ width=\"200\" height=\"200\">";
+    $txt2 = "<div class=\"thumb_title\"><h4>".$description."</h4></div>";
+    fwrite($myfile, $txt1);
+    fwrite($myfile, $txt2);
+    $nbrLines += 1;
+  }
+  fclose($myfile);
+/*
+  if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+     $uri = 'https://';
+  } else {
+     $uri = 'http://';
+  }
+  $uri .= $_SERVER['HTTP_HOST'];
+  header('Location: '.$uri.'/sugarShackTreatsAdmin/');
+  exit;
+*/
+?>
+<html>
+  <body>
+    <form action="index.php" method="post" enctype="multipart/form-data">
+    <h2>Left navigatgion updated complete.<//h2></br>
+    <input type="submit" name"Submit">
+  </body>
+</html>

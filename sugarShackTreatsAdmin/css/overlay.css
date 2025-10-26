@@ -1,0 +1,41 @@
+.image-button-container {
+    position: relative; /* Container for positioning overlay */
+    display: inline-block; /* Allows side-by-side placement if needed */
+//  cursor: pointer; /* Changes cursor to a hand icon */
+    text-decoration: none; /* Removes default link underline */
+    color: inherit; /* Inherit text color */
+}
+
+.button-image {
+    display: block; /* Ensures image fills container space */
+    width: 100%;
+    height: auto;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.5s ease; /* Smooth transition */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background for readability */
+    display: flex; /* Centers the content */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-button-container:hover .overlay {
+    opacity: 1; /* Visible on hover */
+}
+
+.overlay-text {
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    text-align: center;
+}
