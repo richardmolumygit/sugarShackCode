@@ -1,0 +1,47 @@
+      <script>
+        window.onload = function() {
+          itemDesc='desc';
+          itemImage='images/biscoff.jpg';
+          unitPrice=5;
+          newPrice=8;
+          itemName='rich $'+unitPrice;
+          document.getElementById('itemName').textContent = itemName;
+          document.getElementById('itemDesc').textContent = itemDesc;
+          document.getElementById('itemImage').src = itemImage;
+          document.getElementById('unitPrice').value = "$" + unitPrice;
+          document.getElementById('newPrice').value = "$" + unitPrice;
+
+          document.getElementById('nameOfItem').textContent = itemName;
+          document.getElementById('priceOfItem').textContent = unitPrice;
+        }
+      </script>
+      <table>
+        <tr>
+          <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
+        </tr>
+        <tr>
+          <td width=10>&nbsp;</td>
+          <td style="text-align: center;"><img id='itemImage'></td>
+          <td style="text-align: right; vertical-align: center; font-weight: bold" width=40%>
+            <table>
+              <tr><td id='itemName' style='text-align: left'></td><td id='newPrice' style='text-align: right'></td></tr>
+              <tr><td colspan='2'><p id='itemDesc'></p></td></tr>
+              <tr>
+                <td colspan='2'>
+                  <form id='addToCart' action="itemDetails.html" method="post" target="_blank">
+                    <input type="image" src="images/addToCart_large.png" border="0" name="submit" title="Add to Cart" alt="Add to Cart" />
+                  </form>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td width=10>&nbsp;</td>
+        </tr>
+        <tr><td colspan='5'>&nbsp;</td></tr>
+        <tr>
+          <td colspan="5" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+        </tr>
+        <!--tr>
+          <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
+        </tr-->
+      </table>
