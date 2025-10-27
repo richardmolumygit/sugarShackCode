@@ -55,7 +55,7 @@
   $conn = db_connect();
   if ($conn) {
      $selectActive = "SELECT * from catalog WHERE imageName IS NOT NULL AND TRIM(imageName) <> ''";
-//   echo "<!--selectActive-".$selectActive."-->";
+     echo "<!--selectActive-".$selectActive."-->";
      $queryResult = $conn->query($selectActive);
      $numRows = $queryResult->num_rows;
 //   echo "<!--numRows-".$numRows."-->\n";
@@ -66,18 +66,17 @@
            $name = $row['itemName'];
            $price = $row['price'];
            $description = $row['description'];
-/*
-           echo "href|".$href."|\n";
-           echo "name|".$name."|\n";
-           echo "price|".$price."|\n";
-           echo "description|".$description."|\n";
-*/        
+  
+           echo "<!--href-".$href."-->\n";
+           echo "<!--name-".$name."-->\n";
+           echo "<!--price-".$price."-->\n";
+           echo "<!--description-".$description."-->\n";
+          
            $readCntr += 1;
            $tdCntr += 1;
            
-           if ($readCntr > 1) {
+//         if ($readCntr > 1) {
            
-//            echo "|href |".$href."|||name |".$name."|||description |".$description."||\n";
 
 //            $linkSubmit = "<a href=\"javascript:changePages('1')\" class='image-button-container'>\nIMAGE_NAME";
 //            $tdImageDetails = "<img src=\"images/IMAGE_NAME\" alt=\"IMAGE_ALT\" width=\"200\" height=\"200\">"
@@ -124,7 +123,7 @@
               
               $newTrLine = "";
               $lineNbr += 1;
-//            echo "lineNbr (".$lineNbr.")\n";
+              echo "<!--lineNbr-".$lineNbr."-->\n";
               if ($lineNbr == 1) {
                  $lineInMainFile = explode("\n", $mainPageHeaderData);
                  $mainHeaderCntr = 0;
@@ -181,7 +180,7 @@
                  } // foreach ($lineInMainFile as $line)
                  $finalTr = 1;
               } // if ($lineNbr = 1)
-           } // if ($readCntr > 1)
+//         } // if ($readCntr > 1)
         } // while ($row = $result-fetch_assoc())
      } // if ($queryResult->num_rows > 0)
   } // if ($conn)

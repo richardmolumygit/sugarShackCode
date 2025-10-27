@@ -2,10 +2,15 @@
   $targetFile = "links.csv";
 
   $myfile = fopen("leftnav.html", "w") or die("Unable to open file!");
-  $lines = file($targetFile, FILE_IGNORE_NEW_LINES);	// he FILE_IGNORE_NEW_LINES flag ensures that no newline characters are appended at the end of each line
+  /*
+   The FILE_IGNORE_NEW_LINES flag ensures that no newline characters 
+   are appended at the end of each line
+   */
+  $lines = file($targetFile, FILE_IGNORE_NEW_LINES);
   $count = 0;
   $column = []; // create an array
   foreach($lines as $line) {
+      echo "<!--line-".$line."-->\n";
       $count += 1;
       list($href,$name) = explode(",",$line);
       if ($count > 1) {

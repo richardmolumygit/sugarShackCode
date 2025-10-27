@@ -95,14 +95,16 @@
             radioButtons.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (this.checked) { // Only clear if this radio button is actually selected
+//                      alert('id |' + this.id + '|');
                         qtyInput.value = ''; // Clear the input field
                     }
+                    document.getElementById('radioChoice').value = this.id;
                 });
             });
         });  
       </script>
-      <table border=1>
-        <form id='addToCart' action="details.php" method="post" target="_blank">
+      <table>
+        <form id='addToCart' action="addToCart.php" method="post" target="_blank">
           <tr>
             <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
           </tr>
@@ -126,11 +128,11 @@
 ?>
               </p>
             </td>
-            <td width='20%'>
-              <input type=number value=0 id='qtyInput' name='qty' style='width: 40px' onfocus='unselect()'><label for qty>Quantity</label></br>
-              <input type='radio' id='qty2' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
-              <input type='radio' id='qty3' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
-              <input type='radio' id='qty4' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
+            <td width='25%'>
+              <input type=number value=1 id='qtyInput' name='qtyInput' style='width: 40px' onfocus='unselect()'><label for qtyInput>Quantity</label></br>
+              <input type='radio' id='1dz' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
+              <input type='radio' id='2dz' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
+              <input type='radio' id='3dz' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
             </td>
             <td width='1%'>&nbsp;</td>
           </tr>
@@ -141,5 +143,6 @@
           <!--tr>
             <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
           </tr-->
+          <input type='hidden' id='radioChoice' name='radioChoice'>
         </form>
       </table>
