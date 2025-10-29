@@ -65,7 +65,7 @@
         }
      }
      if (! empty($qty) ) {
-        $insertStmt = "INSERT INTO shopingcart (tableId, cartId, itemNbr, quantity) VALUES (NULL,'".$sessionId."','".$itemNbr."','".$qty."')";
+        $insertStmt = "INSERT INTO shoppingcart (tableId, cartId, itemNbr, quantity) VALUES (NULL,'".$sessionId."','".$itemNbr."','".$qty."')";
         echo "<!--insertStmt-".$insertStmt."-->\n";
         if ($conn->query($insertStmt) === TRUE ) {
            echo "<!--Sucess!-->\n";

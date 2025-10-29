@@ -1,16 +1,15 @@
 <?php
-  require "../common_functions.php";
     
-  fwrite($fp,logTime()."begin-POST-values\n");
+  //fwrite($fp,logTime()."begin-POST-values\n");
   echo "<!--begin-POST-values-->\n";
   foreach ($_POST as $id=>$value) {
-     fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
+     //fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
      echo "<!--id-".$id."-value-".$value."-><br>\n";
   }
   echo "<!--end-POST-values-->\n";
   echo "<!--begin-GET-values-->\n";
   foreach ($_GET as $id=>$value) {
-     fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
+     //fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
      echo "<!--id-".$id."-value-".$value."-><br>\n";
   }
   echo "<!--end-GET-values-->\n";
@@ -78,6 +77,24 @@
        div {
          display:inline-block;
        }
+       input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+       }
+
+       label {
+            display: flex;
+            align-items: left;
+            justify-content: left;
+            margin: 0 auto;
+       }
+
+       select {
+            margin-bottom: 10px;
+            margin-top: 10px;
+       }
       </style>
       <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -128,11 +145,33 @@
 ?>
               </p>
             </td>
-            <td width='25%'>
+            <td width='25%' style='vertical-align: top'>
+              <label for "qtyInput" style="text-align: left;">Quantity</label>
+              <select id='qtyInput' name='qtyInput'>
+                 <option value='1'>1</option>
+                 <option value='2'>2</option>
+                 <option value='3' selected>3</option>
+                 <option value='4'>4</option>
+                 <option value='5'>5</option>
+                 <option value='6'>6</option>
+                 <option value='7'>7</option>
+                 <option value='8'>8</option>
+                 <option value='9'>9</option>
+                 <option value='10'>10</option>
+                 <option value='11'>11</option>
+                 <option value='12'>12</option>
+                 <option value='1 dozen'>1 dozen</option>
+                 <option value='2 dozen'>2 dozen</option>
+                 <option value='3 dozen'>3 dozen</option>
+              </select>
+<?php
+/*
               <input type=number value=1 id='qtyInput' name='qtyInput' style='width: 40px' onfocus='unselect()'><label for qtyInput>Quantity</label></br>
               <input type='radio' id='1dz' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
               <input type='radio' id='2dz' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
               <input type='radio' id='3dz' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
+*/
+?>
             </td>
             <td width='1%'>&nbsp;</td>
           </tr>
