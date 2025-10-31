@@ -74,7 +74,8 @@
         }
      }
   } // if $(conn)
+  echo "<!--https://rich-molumby.fwh.is/www/-->\n";
 ?>
 <script>
-  window.location.replace('http://127.0.0.1/sugarshackCode/www/');
+  window.location.replace('https://rich-molumby.fwh.is/www/');
 </script>
