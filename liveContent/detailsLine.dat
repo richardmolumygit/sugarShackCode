@@ -1,0 +1,9 @@
+          <td>
+	        IMAGE_DETAILS
+                <div class="overlay">
+	          IMAGE_DESCRIPTION
+                </div>
+              </div>
+              <input type='hidden' id='UNIT_PRICE_ID' value='UNIT_PRICE_VALUE'>
+            </a>
+          </td>
