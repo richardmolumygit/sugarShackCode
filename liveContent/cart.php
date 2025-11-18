@@ -32,8 +32,8 @@
       </style>
       <script src="https://www.paypal.com/sdk/js?client-id=AWLq1jpoQe05jZZ2YCg7DKlNPfNJ8XM4Hx3m2TDRqYfkEIYvQjSBYMiDNk8jmlZKxg7EgdFamNLRbRLY&currency=USD&debug=true"></script>
       <script>
-        var cartItemsArray = [];
-          var cartItemsArray = [
+//      var cartItemsArray = [];
+        var cartItemsArray = [
 <?php
         $rowNbr = 0;
         while ($row = $queryResult->fetch_assoc()) {
@@ -45,7 +45,7 @@
            $description = $row['description'];
            $quantity = $row['quantity'];
            $cartId = $row['cartId'];
-           echo "             { name: '".$itemName."', quantity: ".$quantity;
+           echo "           { id: ".$rowNbr. ", name: '".$itemName."', quantity: ".$quantity;
            echo ", unit_amount: ".$price." }";
            if ($rowNbr < $numRows) {
               echo ",";
@@ -55,7 +55,7 @@
 //          { name: "T-shirt", quantity: 2, unit_amount: 20.00 },
 //          { name: "Jeans", quantity: 1, unit_amount: 45.00 }
 ?>
-          ];
+        ];
         window.onload = function() {
           showTotalPrice();
         }
@@ -73,10 +73,11 @@
       </script>
       <table border=1>
         <tr>
-          <td colspan="4" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
+          <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
 <?php
   $displayId=0;
+  $arrayId=0;
   if ($numRows > 0) {
 ?>
         <tr>
@@ -84,6 +85,7 @@
           <td style='text-align: left'>Quantity</td>
           <td style='text-align: left'>Price</td>
           <td style='text-align: left'>Total</td>
+          <td style='text-align: left'>&nbsp;</td>
         </tr>
 <?php
         while ($row = $queryResult1->fetch_assoc()) {
@@ -124,7 +126,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
 <?php
 //echo "<!--quantity-".$quantity."-->\n";
               $qty=0;
-              for($qty=1;$qty<15;$qty++) {
+              for($qty=0;$qty<15;$qty++) {
 //echo "<!--qty-".$qty."-->\n";
                 $out = $qty;
                 if ($qty == 12) { $out = "1 dozen"; }
@@ -142,8 +144,10 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           </td>
           <td style='text-align: left' id='price<?php echo $displayId ?>' name='price<?php echo $displayId ?>'>$<?php echo $price; ?></td>
           <td style='text-align: right' id='total<?php echo $displayId ?>' name='total<?php echo $displayId ?>'>$<?php echo $total; ?></td>
+          <td style='text-align: right' id='delete<?php echo $displayId ?>' name='delete<?php echo $displayId ?>' onclick='deleteItem(<?= $arrayId ?>)'>Delete</td>
         </tr>
 <?php
+             $arrayId += 1;
            } // if ($cartId = $sessionId)
         } // ($row = $queryResult1->fetch_assoc())
 ?>
@@ -221,6 +225,23 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           // When user clicks your button, trigger the PayPal flow
           paypalButtons.click(); // this call works if library supports it
         });
+
+        function deleteItem(deleteNbr) {
+  
+          alert('deleteNbr ('+deleteNbr+')');
+          di = cartItemsArray[deleteNbr];
+          alert('Name ('+di.id+') |'+di.name+'| quantity |'+di.quantity+'| unit_amount (' + di.unit_amount + ')');
+          cartItemsArray.splice(deleteNbr,1);
+  
+          cartItemsArray.forEach(cItem => {
+            cNbr = cItem.id;
+            cName = cItem.name;
+            cQty = cItem.quantity;
+            cAmt = cItem.unit_amount;
+            alert('cName ('+cNbr+') |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')');
+          }); // cartItemsArray.forEach(cItem =>
+  
+        } // function deleteItem(deleteNbr)
 
         function showTotalasMoney(totalId,newTotal) {
           document.getElementById(totalId).innerHTML = formatterUSD.format(newTotal);

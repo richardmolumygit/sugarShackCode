@@ -55,6 +55,9 @@
   }
   $qty='';
   if ($conn) {
+     $log_file = "addToCart.log";
+     $fp = fopen($log_file,'w');
+     fwrite($fp,logTime()."-start-\n");
      if (empty($radioChoice)) {
         if (isset($qtyInput)) {
            $qty = $qtyInput;
@@ -67,14 +70,40 @@
      if (! empty($qty) ) {
         $insertStmt = "INSERT INTO shoppingCart (tableId, cartId, itemNbr, quantity) VALUES (NULL,'".$sessionId."','".$itemNbr."','".$qty."')";
         echo "<!--insertStmt-".$insertStmt."-->\n";
+        fwrite($fp,"--insertStmt-".$insertStmt."-\n");
         if ($conn->query($insertStmt) === TRUE ) {
-           echo "<!--Sucess!-->\n";
+           echo "<!--Success!-->\n";
+           fwrite($fp,"-Success-\n");
         } else {
            echo "<!--Failure-->\n";
+           fwrite($fp,"-Failure-\n");
         }
      }
+     fclose($fp);
   } // if $(conn)
+/*
+<script>
+  const rightNav = window.getElementById('rightNav');
+  rightNav.src = rightNav.src
+</script>
+<script>
+//const rightNav = window.getElementById('rightNav');
+//rightNav.contentWindow.location.reload(true);
+//document.getElementById('rightNav').contentWindow.location.reload();
+//document.getElementById('rightNav').src = document.getElementById('rightNav').src
+//document.getElementById('rightNav').src += '';
+//window.frames['rightNav'].location.reload();
+//window.location.reload(true);
+header("Refresh:0; url=./stage.html");
+</script>
+window.onload = function() {
+  window.location.reload();
+}
+*/
 ?>
 <script>
-  window.location.replace('https://rich-molumby.fwh.is/stage.html');
+  rightNav = document.getElementById('rightNav');
+  currentSrc = rightNav.src;
+  rightNav.src = '';
+  rightNav.src = currentSrc;
 </script>

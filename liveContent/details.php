@@ -71,6 +71,10 @@
   
 /*
       <script src="js/itemDetails.js"></script>
+      window.onload = function() {
+        iframeSrc = document.getElementById('rightNav');
+        alert('iframeSrc |'+iframSrc.src+'|');
+      }
 */
 ?>
       <style>
@@ -121,7 +125,10 @@
         });  
       </script>
       <table>
-        <form id='addToCart' action="addToCart.php" method="post" target="_blank">
+<?php
+//      <form id='addToCart' action="addToCart.php" method="post" target="_blank">
+?>
+        <form id='addToCart' action="addToCart.php" method="post" target="rightNav">
           <tr>
             <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
           </tr>
@@ -140,8 +147,9 @@
               <p>
                   <input type="image" src="images/addToCart_large.png" border="0" name="submit" title="Add to Cart" alt="Add to Cart" />
 <?php
-                  echo"                  <input type='hidden' name='itemNbr' value='".$itemNbr."'>\n";
-                  echo"                  <input type='hidden' name='postId' value='".$itemNbr."'>\n";
+                  echo "                  <input type='hidden' name='itemNbr' value='".$itemNbr."'>\n";
+                  echo "                  <input type='hidden' name='postId' value='".$itemNbr."'>\n";
+                  echo "                  <input type='hidden' name='iframeSrc'>\n";
 ?>
               </p>
             </td>
