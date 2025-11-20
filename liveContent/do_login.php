@@ -25,7 +25,7 @@
      fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
   }
   fwrite($fp,logTime()."end-POST-values\n");
-//header('Location: http://127.0.0.1/main.php');
+//header('Location: http://127.0.0.1/admin.php');
   if (isset($username) && isset($password)) {
      $conn = db_connect();
      if ($conn) {
@@ -67,10 +67,10 @@
                     fwrite($fp,logTime()."-update-".$update."-\n");
                     $result = mysqli_query($conn, $update);
                     fwrite($fp,logTime()."-result-".$result."-\n");
-                    fwrite($fp,logTime()."-Location:main.php-\n");
+                    fwrite($fp,logTime()."-Location:admin.php-\n");
                     fclose($fp);
                     if ($passwordRow == $password) {
-                       header("Location:main.php");
+                       header("Location:admin.php");
                     } else {
                        $_SESSION['userId'] = $username;
                        header("Location:changePassword.php");
