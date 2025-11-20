@@ -1,5 +1,7 @@
 <?php
   require "common_functions.php";
+  $log_file = "cart.log";
+  $fp = fopen($log_file,'w');
 
   $sessionId = session_id();
   echo "<!--sessionId-".$sessionId."-->\n";
@@ -11,12 +13,14 @@
      // INNER JOIN catalog with shopping cart
      $query = "SELECT 
                c.id, c.imageName, c.itemName, c.price, c.description, 
-               s.quantity, s.cartId 
+               s.quantity, s.cartId, s.tableId
                FROM catalog c 
                INNER JOIN shoppingCart s 
                ON c.id = s.itemNbr
                WHERE s.cartid = '".$sessionId."'";
      echo "<!--query-".$query."-->\n";
+     fwrite($fp,logTime()."sessionId-".$sessionId."-\n");
+     fwrite($fp,logTime()."query-".$query."-\n");
 
      $queryResult = $conn->query($query);
      $queryResult1 = $conn->query($query);
@@ -32,7 +36,7 @@
       </style>
       <script src="https://www.paypal.com/sdk/js?client-id=AWLq1jpoQe05jZZ2YCg7DKlNPfNJ8XM4Hx3m2TDRqYfkEIYvQjSBYMiDNk8jmlZKxg7EgdFamNLRbRLY&currency=USD&debug=true"></script>
       <script>
-//      var cartItemsArray = [];
+        nbrRows = <?= $numRows; ?>;
         var cartItemsArray = [
 <?php
         $rowNbr = 0;
@@ -45,34 +49,29 @@
            $description = $row['description'];
            $quantity = $row['quantity'];
            $cartId = $row['cartId'];
-           echo "           { id: ".$rowNbr. ", name: '".$itemName."', quantity: ".$quantity;
+           $tableId = $row['tableId'];
+           echo "           { id: ".$rowNbr;
+           echo ", tableId: ".$tableId;
+           echo ", name: '".$itemName."'";
+           echo ", quantity: ".$quantity;
            echo ", unit_amount: ".$price." }";
            if ($rowNbr < $numRows) {
               echo ",";
            }
            echo "\n";
         } // while ($row = $queryResult->fetch_assoc())
-//          { name: "T-shirt", quantity: 2, unit_amount: 20.00 },
-//          { name: "Jeans", quantity: 1, unit_amount: 45.00 }
 ?>
         ];
         window.onload = function() {
           showTotalPrice();
         }
-/*
-        console.info('-----------------------------------');
-        cartItemsArray.forEach(cItem => {
-          cName = cItem.name;
-          console.info('initial-cName |'+cName+'|');
-        });
-*/
         const formatterUSD = new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD'
         });
       </script>
-      <table border=1>
-        <tr>
+      <table id='mainTable'>
+        <tr id='head1'>
           <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
 <?php
@@ -80,7 +79,7 @@
   $arrayId=0;
   if ($numRows > 0) {
 ?>
-        <tr>
+        <tr id='head2'>
           <td style='text-align: left'>Item</td>
           <td style='text-align: left'>Quantity</td>
           <td style='text-align: left'>Price</td>
@@ -97,6 +96,7 @@
            $description = $row['description'];
            $quantity = $row['quantity'];
            $cartId = $row['cartId'];
+           $tableId = $row['tableId'];
 echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
 /*
            if (is_numeric($price)) {
@@ -119,10 +119,10 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
               $displayId += 1;
 ?>
         </tr>
-        <tr>
-          <td id='cartItemName<?php echo $displayId; ?>' style='text-align: left'><?php echo $itemName; ?></td>
+        <tr id='catItem<?= $displayId; ?>'>
+          <td id='cartItemName<?= $displayId; ?>' style='text-align: left'><?= $itemName; ?></td>
           <td style='text-align: left; vertical-align: top'>
-            <select id='qtyInput<?php echo $displayId; ?>' name='qtyInput<?php echo $displayId; ?>' onChange="changeTotal('<?php echo $displayId;?>')">
+            <select id='qtyInput<?= $displayId; ?>' name='qtyInput<?= $displayId; ?>' onChange="changeTotal('<?= $displayId;?>')">
 <?php
 //echo "<!--quantity-".$quantity."-->\n";
               $qty=0;
@@ -142,46 +142,50 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
 ?>
             </select>
           </td>
-          <td style='text-align: left' id='price<?php echo $displayId ?>' name='price<?php echo $displayId ?>'>$<?php echo $price; ?></td>
-          <td style='text-align: right' id='total<?php echo $displayId ?>' name='total<?php echo $displayId ?>'>$<?php echo $total; ?></td>
-          <td style='text-align: right' id='delete<?php echo $displayId ?>' name='delete<?php echo $displayId ?>' onclick='deleteItem(<?= $arrayId ?>)'>Delete</td>
+          <td style='text-align: left' id='price<?= $displayId ?>' name='price<?= $displayId ?>'>$<?= $price; ?></td>
+          <td style='text-align: right' id='total<?= $displayId ?>' name='total<?= $displayId ?>'>$<?= $total; ?></td>
+          <td style='text-align: right' id='delete_<?= $displayId ?>' name='delete_<?= $displayId ?>' onclick='deleteCartItem(this)'>Delete</td>
+          <td style='display: none' id='tableId<?= $displayId ?>'><?= $tableId ?></td>
         </tr>
 <?php
              $arrayId += 1;
            } // if ($cartId = $sessionId)
         } // ($row = $queryResult1->fetch_assoc())
 ?>
-        <tr>
+        <tr id='totals'>
           <td colspan="2" style='text-align: right'>&nbsp;</td>
           <td style='text-align: left'>Total</td>
-          <td id='totalPrice' name='totalPrice' style='text-align: right'>&nbsp;</td>
+          <td colspan='2' id='totalPrice' name='totalPrice' style='text-align: left'>&nbsp;</td>
         </tr>
-        <tr>
-          <td colspan="4" style='text-align: center'>&nbsp;</td>
+        <tr id='spaces'>
+          <td colspan="5" style='text-align: center'>&nbsp;</td>
         </tr>
-        <tr>
-          <td colspan="4" style='text-align: center'><div id="paypal-button-container"></div></td>
+        <tr id='payPal-button'>
+          <td colspan="5" style='text-align: center'><div id="paypal-button-container"></div></td>
         </tr>
 <?php
   } else {
 ?>
-        <tr>
-          <td colspan="4" style='text-align: center'><h2>Your cart is empty</h2></td>
+        <tr id='emptyCart'>
+          <td colspan="5" style='text-align: center'><h2>Your cart is empty</h2></td>
         </tr>
 <?php
   }
 ?>
-        <tr>
-          <td colspan="4" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+        <tr id='emailLine'>
+          <td colspan="5" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
         </tr>
-        <tr>
-          <td colspan="4" style='text-align: center'>&nbsp;</td>
+        <tr id='spacesAgain'>
+          <td colspan="5" style='text-align: center'>&nbsp;</td>
         </tr>
-        <tr>
-          <td colspan="4" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
+        <tr id='logo'>
+          <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
         </tr>
       </table>
       <script>
+        const tableObj = document.getElementById('mainTable');
+        const parentWindow = window.parent;
+        const rightNavIFrame = parentWindow.document.getElementById('rightNav');
   
         // Calculate total
         var totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
@@ -226,22 +230,57 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           paypalButtons.click(); // this call works if library supports it
         });
 
-        function deleteItem(deleteNbr) {
+        function deleteCartItem(tdItem) {
+          tdNbr = tdItem.id.split('_')[1];
+          cartStr = 'tableId' + tdNbr;
+          cartId = document.getElementById(cartStr).innerHTML;
+          trParent = tdItem.parentElement 	// Get tr for this td
+          tableIdx = trParent.rowIndex;		// Get row index for this td
+          di = cartItemsArray[tdItem];
+          cartItemsArray.splice(tdItem,1);
+          tableObj.deleteRow(tableIdx);
+          nbrRows = tableObj.rows.length;
+          showTotalPrice();
+
+          // Update shopping cart
   
-          alert('deleteNbr ('+deleteNbr+')');
-          di = cartItemsArray[deleteNbr];
-          alert('Name ('+di.id+') |'+di.name+'| quantity |'+di.quantity+'| unit_amount (' + di.unit_amount + ')');
-          cartItemsArray.splice(deleteNbr,1);
+          var xmlhttp = new XMLHttpRequest();
+          response = ''
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              response += this.responseText;
+            }
+            response += '|'+this.readyState
+          };
+          xmlhttp.open("GET", "deleteFromCart.php?tableId=" + cartId, true);
+          xmlhttp.send();
+          nbrItems = 0;
+
+          // See if the cart is empty and then refresh page if it is.
+          trRows = tableObj.querySelectorAll('tr');
+          rowIds = '';
+          trRows.forEach(row => {
+            rowId = row.id;
+            if (rowId.substring(0,7) == 'catItem') {
+               nbrItems += 1;
+            } // if (trId.substring(0,7) == 'catItem')
+          }); // trRows.forEach(tow =>
+          if (nbrItems == 0) {
+             rightNavIFrame.src = 'cart.php';
+          } // if (nbrRows == 0)
+
+          // Recompute total amount
+          totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
+//        alert('totalAmount ('+totalAmount+')');
   
           cartItemsArray.forEach(cItem => {
-            cNbr = cItem.id;
             cName = cItem.name;
             cQty = cItem.quantity;
             cAmt = cItem.unit_amount;
-            alert('cName ('+cNbr+') |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')');
-          }); // cartItemsArray.forEach(cItem =>
+//          alert('cName |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')');
+          });
   
-        } // function deleteItem(deleteNbr)
+        } // function deleteCartItem(deleteNbr)
 
         function showTotalasMoney(totalId,newTotal) {
           document.getElementById(totalId).innerHTML = formatterUSD.format(newTotal);
@@ -250,20 +289,29 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           return input.substring(1,input.length);
         }
         function showTotalPrice() {
-//alert('showTotalPrice');
           totalPriceVal = document.getElementById('totalPrice');
-          nbrRows = '<?php echo $numRows; ?>';
           totalPrice = 0;
           for (i=1;i<=nbrRows;i++) {
              priceStr = 'price'+i;
              totalStr = 'total'+i;
-             priceVal = removeLeadingChar(document.getElementById(priceStr).innerHTML);
-             totalVal = removeLeadingChar(document.getElementById(totalStr).innerHTML);
-             totalPrice = totalPrice + parseFloat(totalVal);
-             showTotalasMoney(priceStr,priceVal)
-             showTotalasMoney(totalStr,totalVal);
-             showTotalasMoney('totalPrice',totalPrice);
+             qtyInput = 'qtyInput'+i;
+//           alert('showTotalPrice priceStr |'+priceStr+'| totalStr |'+totalStr+'| totalPrice ('+totalPrice+')');
+             // When an item is deleted, it won't be available anymore
+             try {
+               mySelect = document.getElementById(qtyInput).value;
+               priceVal = removeLeadingChar(document.getElementById(priceStr).innerHTML);
+               totalVal = removeLeadingChar(document.getElementById(totalStr).innerHTML);
+               totalVal = mySelect * priceVal;
+               totalPrice = totalPrice + parseFloat(totalVal);
+ //            alert('showTotalPrice qty ('+mySelect+') priceVal ('+priceVal+') totalPrice ('+totalPrice+')');
+               showTotalasMoney(priceStr,priceVal)
+               showTotalasMoney(totalStr,totalVal);
+               showTotalasMoney('totalPrice',totalPrice);
+             } catch (error) {
+             }
           }
+          showTotalasMoney('totalPrice',totalPrice);
+//        alert('showTotalPrice totalPrice ('+totalPrice+')');
         }
 
         function changeTotal(lineNbr) {
@@ -303,7 +351,6 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
            showTotalPrice();
         }
         totalPriceVal = document.getElementById('totalPrice');
-        nbrRows = '<?php echo $numRows; ?>';
         totalPrice = 0;
         for (i=1;i<=nbrRows;i++) {
            priceStr = 'price'+i;
@@ -316,3 +363,6 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
            showTotalasMoney('totalPrice',totalPrice);
         }
       </script>
+<?php
+  fclose($fp);
+?>

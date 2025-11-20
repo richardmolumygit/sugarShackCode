@@ -1,5 +1,11 @@
 <?php
     
+  $log_file = "details.log";
+  $fp = fopen($log_file,'w');
+
+  $sessionId = session_id();
+  echo "<!--sessionId-".$sessionId."-->\n";
+
   //fwrite($fp,logTime()."begin-POST-values\n");
   echo "<!--begin-POST-values-->\n";
   foreach ($_POST as $id=>$value) {
@@ -18,7 +24,6 @@
   unset($unitPrice);
   unset($itemNbr);
   unset($postId);
-//unset($username);
 
   if (isset($_POST['itemName'])) {
      $itemName = $_POST['itemName'];
@@ -149,7 +154,7 @@
 <?php
                   echo "                  <input type='hidden' name='itemNbr' value='".$itemNbr."'>\n";
                   echo "                  <input type='hidden' name='postId' value='".$itemNbr."'>\n";
-                  echo "                  <input type='hidden' name='iframeSrc'>\n";
+                  echo "                  <input type='hidden' name='iframeSrc' value=mainPage.php'>\n";
 ?>
               </p>
             </td>
