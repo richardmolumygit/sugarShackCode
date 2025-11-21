@@ -146,6 +146,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           <td style='text-align: right' id='total<?= $displayId ?>' name='total<?= $displayId ?>'>$<?= $total; ?></td>
           <td style='text-align: right' id='delete_<?= $displayId ?>' name='delete_<?= $displayId ?>' onclick='deleteCartItem(this)'>Delete</td>
           <td style='display: none' id='tableId<?= $displayId ?>'><?= $tableId ?></td>
+          <td style='display: none' id='arrayId<?= $displayId ?>'><?= $arrayId ?></td>
         </tr>
 <?php
              $arrayId += 1;
@@ -231,13 +232,28 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
         });
 
         function deleteCartItem(tdItem) {
+  
+          totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
+          remaining = '';
+          cartItemsArray.forEach(cItem => {
+            cName = cItem.name;
+            cQty = cItem.quantity;
+            cAmt = cItem.unit_amount;
+            remaining += 'cName |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')\n';
+          });
+          remaining += 'totalAmount ('+totalAmount+')\n';
+//        alert(remaining);
+
           tdNbr = tdItem.id.split('_')[1];
+          arrayStr = 'arrayId' + tdNbr;
           cartStr = 'tableId' + tdNbr;
           cartId = document.getElementById(cartStr).innerHTML;
+          arrayId = document.getElementById(arrayStr).innerHTML;
           trParent = tdItem.parentElement 	// Get tr for this td
           tableIdx = trParent.rowIndex;		// Get row index for this td
           di = cartItemsArray[tdItem];
-          cartItemsArray.splice(tdItem,1);
+//        alert('cartItemsArray.splice('+arrayId+',1)');
+          cartItemsArray.splice(arrayId,1);
           tableObj.deleteRow(tableIdx);
           nbrRows = tableObj.rows.length;
           showTotalPrice();
@@ -271,15 +287,19 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
 
           // Recompute total amount
           totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
-//        alert('totalAmount ('+totalAmount+')');
   
+          remaining = '';
           cartItemsArray.forEach(cItem => {
             cName = cItem.name;
             cQty = cItem.quantity;
             cAmt = cItem.unit_amount;
-//          alert('cName |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')');
+            remaining += 'cName |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')\n';
           });
+          remaining += 'totalAmount ('+totalAmount+')\n';
+//        alert(remaining);
   
+
+
         } // function deleteCartItem(deleteNbr)
 
         function showTotalasMoney(totalId,newTotal) {
