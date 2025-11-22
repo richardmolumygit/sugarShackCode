@@ -1,4 +1,3 @@
-
 <?php
   require "common_functions.php";
 
@@ -51,7 +50,7 @@
               <div class="overlay">
                 <div id='description<?php echo $catId; ?>' class="overlay-text"><?= $description ?></div>
               </div>
-              <input type='hidden' id='unitPrice<?php echo $catId; ?>' value='4.50'>
+              <input type='hidden' id='unitPrice<?php echo $catId; ?>' value='<?= $price ?>'>
             </a>
           </td>
 <?php
