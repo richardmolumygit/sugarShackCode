@@ -127,7 +127,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
 <?php
 //echo "<!--quantity-".$quantity."-->\n";
               $qty=0;
-              for($qty=0;$qty<15;$qty++) {
+              for($qty=1;$qty<15;$qty++) {
 //echo "<!--qty-".$qty."-->\n";
                 $out = $qty;
                 if ($qty == 12) { $out = "1 dozen"; }
