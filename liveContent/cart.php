@@ -62,18 +62,19 @@
         } // while ($row = $queryResult->fetch_assoc())
 ?>
         ];
-        window.onload = function() {
-          showTotalPrice();
-        }
         const formatterUSD = new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD'
         });
+        window.onload = function() {
+          showTotalPrice();
+        }
       </script>
       <table id='mainTable'>
         <tr id='head1'>
           <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
+        <tr style display: none' id='placeHolder'></tr>
 <?php
   $displayId=0;
   $arrayId=0;
@@ -234,15 +235,6 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
         function deleteCartItem(tdItem) {
   
           totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
-          remaining = '';
-          cartItemsArray.forEach(cItem => {
-            cName = cItem.name;
-            cQty = cItem.quantity;
-            cAmt = cItem.unit_amount;
-            remaining += 'cName |'+cName+'| cQty |'+cQty+'| cAmt (' + cAmt + ')\n';
-          });
-          remaining += 'totalAmount ('+totalAmount+')\n';
-//        alert(remaining);
 
           tdNbr = tdItem.id.split('_')[1];
           arrayStr = 'arrayId' + tdNbr;
@@ -251,8 +243,6 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           arrayId = document.getElementById(arrayStr).innerHTML;
           trParent = tdItem.parentElement 	// Get tr for this td
           tableIdx = trParent.rowIndex;		// Get row index for this td
-          di = cartItemsArray[tdItem];
-//        alert('cartItemsArray.splice('+arrayId+',1)');
           cartItemsArray.splice(arrayId,1);
           tableObj.deleteRow(tableIdx);
           nbrRows = tableObj.rows.length;
@@ -270,20 +260,10 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           };
           xmlhttp.open("GET", "deleteFromCart.php?tableId=" + cartId, true);
           xmlhttp.send();
-          nbrItems = 0;
 
           // See if the cart is empty and then refresh page if it is.
           trRows = tableObj.querySelectorAll('tr');
           rowIds = '';
-          trRows.forEach(row => {
-            rowId = row.id;
-            if (rowId.substring(0,7) == 'catItem') {
-               nbrItems += 1;
-            } // if (trId.substring(0,7) == 'catItem')
-          }); // trRows.forEach(tow =>
-          if (nbrItems == 0) {
-             rightNavIFrame.src = 'cart.php';
-          } // if (nbrRows == 0)
 
           // Recompute total amount
           totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
@@ -298,6 +278,36 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           remaining += 'totalAmount ('+totalAmount+')\n';
 //        alert(remaining);
   
+          nbrItems = 0;
+
+          trRows.forEach(row => {
+            rowId = row.id;
+            if (rowId.substring(0,7) == 'catItem') {
+               nbrItems += 1;
+            } // if (trId.substring(0,7) == 'catItem')
+          }); // trRows.forEach(tow =>
+
+//        alert('nbrItems ('+nbrItems+')');
+
+          if (nbrItems == 0) {
+/*
+             rightNavIFrame.src = 'cart.php';
+             alert('src |'+rightNavIFrame.src+'|');
+*/
+             try {
+                head2 = document.getElementById('head2');
+                head2.parentNode.removeChild(head2);
+                totals = document.getElementById('totals');
+                totals.parentNode.removeChild(totals);
+                spaces = document.getElementById('spaces');
+                spaces.parentNode.removeChild(spaces);
+                payPalButton = document.getElementById('payPal-button');
+                payPalButton.parentNode.removeChild(payPalButton);
+                placeHolder = document.getElementById('placeHolder');
+                placeHolder.innerHTML = '<td colspan="5" style="text-align: center"><h2>Your cart is empty</h2></td>';
+             } catch (error) {
+             }
+          } // if (nbrRows == 0)
 
 
         } // function deleteCartItem(deleteNbr)
