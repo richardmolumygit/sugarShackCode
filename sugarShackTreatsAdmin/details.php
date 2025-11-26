@@ -1,16 +1,15 @@
 <?php
-  require "../common_functions.php";
     
-  fwrite($fp,logTime()."begin-POST-values\n");
+  //fwrite($fp,logTime()."begin-POST-values\n");
   echo "<!--begin-POST-values-->\n";
   foreach ($_POST as $id=>$value) {
-     fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
+     //fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
      echo "<!--id-".$id."-value-".$value."-><br>\n";
   }
   echo "<!--end-POST-values-->\n";
   echo "<!--begin-GET-values-->\n";
   foreach ($_GET as $id=>$value) {
-     fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
+     //fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
      echo "<!--id-".$id."-value-".$value."-><br>\n";
   }
   echo "<!--end-GET-values-->\n";
@@ -78,34 +77,51 @@
        div {
          display:inline-block;
        }
+       input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+       }
+
+       label {
+            display: flex;
+            align-items: left;
+            justify-content: left;
+            margin: 0 auto;
+       }
+
+       select {
+            margin-bottom: 10px;
+            margin-top: 10px;
+       }
       </style>
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const inputField = document.getElementById('qtyInput'); // Replace with your input's ID
-            const qtyCheck = document.getElementById('qtyCheck'); // Replace with your checkbox's ID
+            const qtyInput = document.getElementById('qtyInput');
+            const radioButtons = document.querySelectorAll('input[name="qtyCheck"]');
 
-            inputField.addEventListener('focus', function() {
-                if (qtyCheck.checked) {
-                    qtyCheck.checked = false;
-                }
+            // Event listener for input box focus
+            qtyInput.addEventListener('focus', function() {
+                radioButtons.forEach(radio => {
+                    radio.checked = false; // Uncheck all radio buttons in the group
+                });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputField = document.getElementById('qtyInput'); // Replace with your input's ID
-            const qtyCheck = document.getElementById('qtyCheck'); // Replace with your checkbox's ID
-
-
-            qtyCheck.addEventListener('change', function() {
-                if (qtyCheck.checked) {
-                    qtyInput.value = ''; // Set input value to empty string
-                }
+            // Event listener for radio button change
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) { // Only clear if this radio button is actually selected
+//                      alert('id |' + this.id + '|');
+                        qtyInput.value = ''; // Clear the input field
+                    }
+                    document.getElementById('radioChoice').value = this.id;
+                });
             });
-        });
-
+        });  
       </script>
-      <table border=1>
-        <form id='addToCart' action="details.php" method="post" target="_blank">
+      <table>
+        <form id='addToCart' action="addToCart.php" method="post" target="_blank">
           <tr>
             <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
           </tr>
@@ -129,11 +145,33 @@
 ?>
               </p>
             </td>
-            <td width='20%'>
-              <input type=number id='qtyInput' name='qty' style='width: 40px' onfocus='unselect()'><label for qty>Quantity</label></br>
-              <input type='radio' id='qty2' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
-              <input type='radio' id='qty3' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
-              <input type='radio' id='qty4' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
+            <td width='25%' style='vertical-align: top'>
+              <label for "qtyInput" style="text-align: left;">Quantity</label>
+              <select id='qtyInput' name='qtyInput'>
+                 <option value='1'>1</option>
+                 <option value='2'>2</option>
+                 <option value='3' selected>3</option>
+                 <option value='4'>4</option>
+                 <option value='5'>5</option>
+                 <option value='6'>6</option>
+                 <option value='7'>7</option>
+                 <option value='8'>8</option>
+                 <option value='9'>9</option>
+                 <option value='10'>10</option>
+                 <option value='11'>11</option>
+                 <option value='12'>12</option>
+                 <option value='1 dozen'>1 dozen</option>
+                 <option value='2 dozen'>2 dozen</option>
+                 <option value='3 dozen'>3 dozen</option>
+              </select>
+<?php
+/*
+              <input type=number value=1 id='qtyInput' name='qtyInput' style='width: 40px' onfocus='unselect()'><label for qtyInput>Quantity</label></br>
+              <input type='radio' id='1dz' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
+              <input type='radio' id='2dz' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
+              <input type='radio' id='3dz' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
+*/
+?>
             </td>
             <td width='1%'>&nbsp;</td>
           </tr>
@@ -144,5 +182,6 @@
           <!--tr>
             <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
           </tr-->
+          <input type='hidden' id='radioChoice' name='radioChoice'>
         </form>
       </table>

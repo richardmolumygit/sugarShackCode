@@ -74,21 +74,51 @@
       <script src="js/itemDetails.js"></script>
 */
 ?>
-      <table border=1>
-        <form id='addToCart' action="details.php" method="post" target="_blank">
+      <style>
+       div {
+         display:inline-block;
+       }
+      </style>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qtyInput = document.getElementById('qtyInput');
+            const radioButtons = document.querySelectorAll('input[name="qtyCheck"]');
+
+            // Event listener for input box focus
+            qtyInput.addEventListener('focus', function() {
+                radioButtons.forEach(radio => {
+                    radio.checked = false; // Uncheck all radio buttons in the group
+                });
+            });
+
+            // Event listener for radio button change
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) { // Only clear if this radio button is actually selected
+//                      alert('id |' + this.id + '|');
+                        qtyInput.value = ''; // Clear the input field
+                    }
+                    document.getElementById('radioChoice').value = this.id;
+                });
+            });
+        });  
+      </script>
+      <table>
+        <form id='addToCart' action="addToCart.php" method="post" target="_blank">
           <tr>
             <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
           </tr>
           <tr>
-            <td width=10>&nbsp;</td>
+            <td width=1%>&nbsp;</td>
 <?php
-            echo"            <td style='text-align: center;'><img id='itemImage' src='".$itemImage."'></td>";
+            echo"            <td width='40%' style='text-align: center;'><img id='itemImage' src='".$itemImage."'></td>\n";
 ?>
-            <td style="text-align: center; vertical-align: center; font-weight: bold" width=40%>
 <?php
-              echo "            <input type=text name='itemName' style='border-width:0px; border:none;' value='".$itemName."'>\n";
-              echo "            $<input type=text name='unitPrice' style='border-width:0px; border:none;' value='".$unitPrice.">\n";
-              echo "            <textarea id='itemDesc' name='itemDesc' rows='5' cols='46' style='border-width:0px; border:none; resize: none;'>".$itemDesc."</textarea>\n";
+              echo "            <td width='20%' style='text-align: center;'>\n";
+              echo "              <div><p name='itemName'>".$itemName."</p></div>\n";
+              echo "              <div>$</div>\n";
+              echo "              <div><p name='unitPrice'>".$unitPrice."</p></div>\n";
+              echo "              <textarea id='itemDesc' name='itemDesc' rows='5' cols='46' style='border-width:0px; border:none; resize: none;'>".$itemDesc."</textarea>\n";
 ?>
               <p>
                   <input type="image" src="images/addToCart_large.png" border="0" name="submit" title="Add to Cart" alt="Add to Cart" />
@@ -98,14 +128,21 @@
 ?>
               </p>
             </td>
-            <td width=10>&nbsp;</td>
+            <td width='25%'>
+              <input type=number value=1 id='qtyInput' name='qtyInput' style='width: 40px' onfocus='unselect()'><label for qtyInput>Quantity</label></br>
+              <input type='radio' id='1dz' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
+              <input type='radio' id='2dz' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
+              <input type='radio' id='3dz' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
+            </td>
+            <td width='1%'>&nbsp;</td>
           </tr>
-          <tr><td colspan='5'>&nbsp;</td></tr>
+          <tr><td colspan='6'>&nbsp;</td></tr>
           <tr>
             <td colspan="5" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
           </tr>
           <!--tr>
             <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
           </tr-->
+          <input type='hidden' id='radioChoice' name='radioChoice'>
         </form>
       </table>

@@ -1,0 +1,200 @@
+<?php
+    
+  $log_file = "details.log";
+  $fp = fopen($log_file,'w');
+
+  $sessionId = session_id();
+  echo "<!--sessionId-".$sessionId."-->\n";
+
+  //fwrite($fp,logTime()."begin-POST-values\n");
+  echo "<!--begin-POST-values-->\n";
+  foreach ($_POST as $id=>$value) {
+     //fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
+     echo "<!--id-".$id."-value-".$value."-><br>\n";
+  }
+  echo "<!--end-POST-values-->\n";
+  echo "<!--begin-GET-values-->\n";
+  foreach ($_GET as $id=>$value) {
+     //fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
+     echo "<!--id-".$id."-value-".$value."-><br>\n";
+  }
+  echo "<!--end-GET-values-->\n";
+  unset($itemName);
+  unset($itemDesc);
+  unset($unitPrice);
+  unset($itemNbr);
+  unset($postId);
+
+  if (isset($_POST['itemName'])) {
+     $itemName = $_POST['itemName'];
+  } else if (isset($_GET['itemName'])) {
+     $itemName = $_GET['itemName'];
+  }
+  if (isset($_POST['itemDesc'])) {
+     $itemDesc = $_POST['itemDesc'];
+  } else if (isset($_GET['itemDesc'])) {
+     $itemDesc = $_GET['itemDesc'];
+  }
+  if (isset($_POST['itemImage'])) {
+     $itemImage = $_POST['itemImage'];
+  } else if (isset($_GET['itemImage'])) {
+     $itemImage = $_GET['itemImage'];
+  }
+
+  if (isset($_POST['itemDesc'])) {
+     $itemDesc = $_POST['itemDesc'];
+  } else if (isset($_GET['itemDesc'])) {
+     $itemDesc = $_GET['itemDesc'];
+  }
+
+  if (isset($_POST['unitPrice'])) {
+     $unitPrice = $_POST['unitPrice'];
+  } else if (isset($_GET['unitPrice'])) {
+     $unitPrice = $_GET['unitPrice'];
+  }
+
+  if (isset($_POST['itemNbr'])) {
+     $itemNbr = $_POST['itemNbr'];
+  } else if (isset($_GET['itemNbr'])) {
+     $itemNbr = $_GET['itemNbr'];
+  }
+  
+  if (isset($_POST['postId'])) {
+     $postId = $_POST['postId'];
+  } else if (isset($_GET['postId'])) {
+     $postId = $_GET['postId'];
+  }
+  
+  echo "<!--itemName-".$itemName."--><br>\n";
+  echo "<!--itemDesc-".$itemDesc."--><br>\n";
+  echo "<!--itemNbr-".$itemNbr."--><br>\n";
+  echo "<!--unitPrice-".$unitPrice."--><br>\n";
+  if (isset($postId)) {
+     echo "<!--postId-".$postId."--><br>\n";
+     header("Location:addToCart.php?postId=".$postId);
+  }
+  
+/*
+      <script src="js/itemDetails.js"></script>
+      window.onload = function() {
+        iframeSrc = document.getElementById('rightNav');
+        alert('iframeSrc |'+iframSrc.src+'|');
+      }
+*/
+?>
+      <style>
+       div {
+         display:inline-block;
+       }
+       input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+       }
+
+       label {
+            display: flex;
+            align-items: left;
+            justify-content: left;
+            margin: 0 auto;
+       }
+
+       select {
+            margin-bottom: 10px;
+            margin-top: 10px;
+       }
+      </style>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qtyInput = document.getElementById('qtyInput');
+            const radioButtons = document.querySelectorAll('input[name="qtyCheck"]');
+
+            // Event listener for input box focus
+            qtyInput.addEventListener('focus', function() {
+                radioButtons.forEach(radio => {
+                    radio.checked = false; // Uncheck all radio buttons in the group
+                });
+            });
+
+            // Event listener for radio button change
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) { // Only clear if this radio button is actually selected
+//                      alert('id |' + this.id + '|');
+                        qtyInput.value = ''; // Clear the input field
+                    }
+                    document.getElementById('radioChoice').value = this.id;
+                });
+            });
+        });  
+      </script>
+      <table>
+<?php
+//      <form id='addToCart' action="addToCart.php" method="post" target="_blank">
+?>
+        <form id='addToCart' action="addToCart.php" method="post" target="rightNav">
+          <tr>
+            <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
+          </tr>
+          <tr>
+            <td width=1%>&nbsp;</td>
+<?php
+            echo"            <td width='40%' style='text-align: center;'><img id='itemImage' src='".$itemImage."'></td>\n";
+?>
+<?php
+              echo "            <td width='20%' style='text-align: center;'>\n";
+              echo "              <div><p name='itemName'>".$itemName."</p></div>\n";
+              echo "              <div>$</div>\n";
+              echo "              <div><p name='unitPrice'>".$unitPrice."</p></div>\n";
+              echo "              <textarea id='itemDesc' name='itemDesc' rows='5' cols='46' style='border-width:0px; border:none; resize: none;'>".$itemDesc."</textarea>\n";
+?>
+              <p>
+                  <input type="image" src="images/addToCart_large.png" border="0" name="submit" title="Add to Cart" alt="Add to Cart" />
+<?php
+                  echo "                  <input type='hidden' name='itemNbr' value='".$itemNbr."'>\n";
+                  echo "                  <input type='hidden' name='postId' value='".$itemNbr."'>\n";
+                  echo "                  <input type='hidden' name='iframeSrc' value=mainPage.php'>\n";
+?>
+              </p>
+            </td>
+            <td width='25%' style='vertical-align: top'>
+              <label for "qtyInput" style="text-align: left;">Quantity</label>
+              <select id='qtyInput' name='qtyInput'>
+                 <option value='1'>1</option>
+                 <option value='2'>2</option>
+                 <option value='3' selected>3</option>
+                 <option value='4'>4</option>
+                 <option value='5'>5</option>
+                 <option value='6'>6</option>
+                 <option value='7'>7</option>
+                 <option value='8'>8</option>
+                 <option value='9'>9</option>
+                 <option value='10'>10</option>
+                 <option value='11'>11</option>
+                 <option value='12'>12</option>
+                 <option value='1 dozen'>1 dozen</option>
+                 <option value='2 dozen'>2 dozen</option>
+                 <option value='3 dozen'>3 dozen</option>
+              </select>
+<?php
+/*
+              <input type=number value=1 id='qtyInput' name='qtyInput' style='width: 40px' onfocus='unselect()'><label for qtyInput>Quantity</label></br>
+              <input type='radio' id='1dz' name='qtyCheck' onclick='zeroQty()'><label for qty2>1 dozen</label></br>
+              <input type='radio' id='2dz' name='qtyCheck' onclick='zeroQty()'><label for qty3>2 dozen</label></br>
+              <input type='radio' id='3dz' name='qtyCheck' onclick='zeroQty()'><label for qty4>3 dozen</label></br>
+*/
+?>
+            </td>
+            <td width='1%'>&nbsp;</td>
+          </tr>
+          <tr><td colspan='6'>&nbsp;</td></tr>
+          <tr>
+            <td colspan="5" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+          </tr>
+          <!--tr>
+            <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
+          </tr-->
+          <input type='hidden' id='radioChoice' name='radioChoice'>
+        </form>
+      </table>
