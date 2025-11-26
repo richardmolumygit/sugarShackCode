@@ -1,0 +1,88 @@
+CREATE TABLE users (
+username VARCHAR( 50 ) NOT NULL ,
+password VARCHAR( 50 ) NOT NULL ,
+password_tmp VARCHAR( 50 ) NOT NULL ,
+email VARCHAR( 50 ) NOT NULL ,
+isAdmin VARCHAR( 50 ) NOT NULL DEFAULT '0',
+firstName VARCHAR( 50 ) NOT NULL ,
+lastName VARCHAR( 50 ) NOT NULL ,
+address1 VARCHAR( 50 ) NOT NULL ,
+address2 VARCHAR( 50 ) NOT NULL ,
+city VARCHAR( 50 ) NOT NULL ,
+stateCode VARCHAR( 2 ) NOT NULL ,
+zip INT( 5 ) NOT NULL ,
+zipExt INT( 3 ) NOT NULL ,
+areaCode INT( 3 ) NOT NULL ,
+phoneNumber INT( 7 ) NOT NULL ,
+verified_flag VARCHAR( 1 ) NOT NULL DEFAULT 'N',
+creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+last_access_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+pass_tmp_req_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+paid_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = MYISAM ;
+ALTER TABLE users ADD UNIQUE username_unique ( username );
+ 
+INSERT INTO users (
+username ,password ,password_tmp ,email ,isAdmin ,firstName ,lastName ,address1 ,address2 ,city ,
+stateCode ,zip ,zipExt ,areaCode ,phoneNumber ,verified_flag ,creation_date ,last_access_date ,pass_tmp_req_date ,paid_date
+)VALUES (
+'richmolumby', 'Herb2045', '', 'richmolumby@gmail.com', '1', 'Rich', 'Molumby', '14307 Shore Crest DR NW', '', 'Prior Lake', 
+'MN', '55372', '1245', '612', '5591429', 'Y',CURRENT_TIMESTAMP , '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'
+); 
+
+CREATE TABLE catalog (
+id SMALLINT NOT NULL ,
+imageName VARCHAR( 50 ) NOT NULL ,
+itemName VARCHAR( 50 ) NOT NULL ,
+price DECIMAL(8,2) NOT NULL ,
+category VARCHAR( 50 ) NOT NULL ,
+description VARCHAR( 255 ) CHARACTER SET utf8
+) ENGINE = MYISAM ;
+
+
+CREATE TABLE shoppingCart (
+tableId INT AUTO_INCREMENT PRIMARY KEY,
+itemNbr VARCHAR ( 50 ) NOT NULL,
+quantity VARCHAR ( 50 ) NOT NULL,
+cartId VARCHAR ( 50 ) NOT NULL,
+creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = MYISAM ;
+
+SET GLOBAL event_scheduler=ON
+
+CREATE EVENT removeOldCartItems
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR
+DO
+  DELETE FROM shoppingCart
+# WHERE TIMESTAMPDIFF(HOUR, NOW(),shoppingCart.creation_date)>24;
+  WHERE creation_date < NOW() - INTERVAL 1 DAY
+
+#show events;
+#drop event removeOldCartItems
+
+#SELECT * FROM shoppingcart WHERE creation_date < NOW() - INTERVAL 1 HOUR
+#SELECT * FROM shoppingcart WHERE creation_date < NOW() - INTERVAL 1 DAY;
+
+CREATE EVENT myevent
+    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR
+    DO
+      UPDATE myschema.mytable SET mycol = mycol + 1;
+
+CREATE EVENT removeOldCartEntries
+    ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR
+    DO
+      DELETE FROM shoppingcart
+      WHERE creation_date < NOW() - INTERVAL 1 DAY
+
+162.210.102.233
+rich-molumby.com
+ns1.freehostia.com
+ns2.freehostia.com 
+
+ns-1581.awsdns-05.co.uk.
+ns-1374.awsdns-43.org.
+ns-394.awsdns-49.com.
+ns-876.awsdns-45.net.
+
+s3-website-us-east-1.amazonaws.com. A record - old
+
