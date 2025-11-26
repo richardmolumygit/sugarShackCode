@@ -1,6 +1,9 @@
 <?php
   require "common_functions.php";
 
+  $log_file = "mainPage.log";
+  $fp = fopen($log_file,'w');
+
   $sessionId = session_id();
   echo "<!--sessionId-".$sessionId."-->\n";
 
@@ -17,6 +20,9 @@
      $queryResult = $conn->query($query);
      $numRows = $queryResult->num_rows;
      echo "<!--numRows-".$numRows."-->\n";
+     fwrite($fp,logTime()."sessionId-".$sessionId."-\n");
+     fwrite($fp,logTime()."query-".$query."-\n");
+     fwrite($fp,logTime()."numRows-".$numRows."-\n");
   } // if $(conn)
 ?>
 

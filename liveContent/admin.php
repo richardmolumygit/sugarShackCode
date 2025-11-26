@@ -1,3 +1,11 @@
+<?php
+  require "common_functions.php";
+  $log_file = "admin.log";
+  $fp = fopen($log_file,'w');
+
+  fwrite($fp,logTime()."admin.php\n");
+  fclose($fp);
+?>
 <!DOCTYPE html>
 <html>
 <body>
