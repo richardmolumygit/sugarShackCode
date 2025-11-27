@@ -73,24 +73,56 @@
         window.onload = function() {
 //        alert('loaded');
           addDetails();
+          trDeleteId = ''
+          for (var i = 0, row; row = tableObj.rows[i]; i++) {
+//           alert('row ('+i+') |'+row.innerHTML+'|');
+             rowId = row.id;
+             if (rowId.substring(0,4) == 'line') {
+                col = row.cells;
+                td0=col[0].innerHTML;
+                td2=col[2].innerHTML;
+                td4=col[4].innerHTML;
+                allTd = td0+td2+td4
+//              alert('allTd ('+allTd.length+') |'+allTd+'|');
+                if (allTd.length == 0) {
+                   trDeleteId = rowId;
+                }
+/*
+                alert(row.innerHTML);
+                tdOut = '';
+                tdOut += col[0].id+'|'+col[0].innerHTML+'|\n';
+                tdOut += col[2].id+'|'+col[2].innerHTML+'|\n';
+                tdOut += col[4].id+'|'+col[4].innerHTML+'|\n';
+                alert(tdOut);
+*/
+             } // if (rowId.substring(0,4) == 'line')
+          } // for (var i = 0, row; row = tableObj.rows[i]; i++)
+          if (trDeleteId != '') {
+/*
+             alert('trDeleteId |'+trDeleteId+'|');
+             rowToDelete = document.getElementById(trDeleteId);
+             tableObj.deleteRow(rowToDelete);
+*/
+             document.getElementById(trDeleteId).remove();
+          }
         }
       </script>
       <table id='mainTable'>
         <tr id='head1'>
-          <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
+          <td colspan="6" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
         <tr id='head2'>
-          <td colspan="5" style="text-align: center;"><h3>Custom Orders</h3></td>
+          <td colspan="6" style="text-align: center;"><h3>Custom Orders</h3></td>
         </tr>
-        <tr id='head2'>
-          <td sytle='align: left'>Cookies</td>
-          <td>Qty</td>
-          <td sytle='align: left'>Cakes</td>
-          <td>Qty</td>
-          <td sytle='align: left'>Treats</td>
-          <td>Qty</td>
+        <tr id='head2' style='border:1px solid #000; border-collapse: collapse'>
+          <td sytle='align: left'><b>Cookies</b></td>
+          <td><b>Qty</b></td>
+          <td sytle='align: left'><b>Cakes</b></td>
+          <td><b>Qty</b></td>
+          <td sytle='align: left'><b>Treats</b></td>
+          <td><b>Qty</b></td>
         </tr>
-        <tr id='line0'>
+        <tr id='line0' style='border: 1px'>
           <td id='cookie0'></td>
           <td id='cookieQty0'>
             <input id='cookieInput0' style='width:40px' value=0>
@@ -105,13 +137,13 @@
           </td>
         </tr>
         <tr id='emailLine'>
-          <td colspan="5" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+          <td colspan="6" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
         </tr>
         <tr id='spacesAgain'>
-          <td colspan="5" style='text-align: center'>&nbsp;</td>
+          <td colspan="6" style='text-align: center'>&nbsp;</td>
         </tr>
         <tr id='logo'>
-          <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
+          <td colspan="6" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
         </tr>
       </table>
       <script>
@@ -121,7 +153,7 @@
         var insertRowNbr = 4;
 
         function addDetails() {
-          alert('addDetails');
+//        alert('addDetails');
           saveLine = document.getElementById('line0').innerHTML;
           newLine = document.createElement('tr');
           catItemsArray.forEach(cItem => {
@@ -143,42 +175,21 @@
             cakeId = 'cake'+cakeCnt;
             cookieId = 'cookie'+cookieCnt;
             treatId = 'treat'+treatCnt;
-/*
-            if ( (cakeCnt > lineNbr) || (cookieCnt > lineNbr) || (treatCnt > lineNbr) ) {
-               lineNbr++;
-               alert('cakeCnt ('+cakeCnt+') cookieCnt ('+cookieCnt+') treatCnt ('+treatCnt+') lineNbr ('+lineNbr+')');
-            }
-*/
             cakeItem = document.getElementById(cakeId).innerHTML;
             cookieItem = document.getElementById(cookieId).innerHTML;
             treatItem = document.getElementById(treatId).innerHTML;
   
-//          if ( (cakeItem != '') && (cakeCnt < lineNbr) ) { 
             if (cakeItem != '') {
                cakeCnt++;
-/*
-               alert('cakeId |'+cakeId+'|');
-               alert('cakeItem ('+cakeCnt+') |'+cakeItem+'|'); 
-*/
             }
-//          if ( (cookieItem != '') && (cookieCnt < lineNbr) ) { 
             if (cookieItem != '') {
                cookieCnt++;
-/*
-               alert('cookieId |'+cookieId+'|');
-               alert('cookieItem ('+cookieCnt+') |'+cookieItem+'|'); 
-*/
             }
-//          if ( (treatItem != '') && (treatCnt < lineNbr) ) { 
             if (treatItem != '') {
                treatCnt++;
-/*
-               alert('treatId |'+treatId+'|');
-               alert('treatItem ('+treatCnt+') |'+treatItem+'|'); 
-*/
             }
 
-            alert('cookieCnt ('+cookieCnt+') cakeCnt ('+cakeCnt+') treatCnt ('+treatCnt+') lineNbr ('+lineNbr+')');
+//          alert('cookieCnt ('+cookieCnt+') cakeCnt ('+cakeCnt+') treatCnt ('+treatCnt+') lineNbr ('+lineNbr+')');
             if ( ( cookieCnt > lineNbr ) || ( cakeCnt > lineNbr ) || ( treatCnt > lineNbr ) ) {
                lineNbr++;
             }
@@ -190,11 +201,10 @@
             }
             appendRow(cakeCnt, cookieCnt, treatCnt, itemCnt, iCategory, itemName);
           });
-//        alert('itemCnt ('+itemCnt+') cakeCnt ('+cakeCnt+') cookieCnt ('+cookieCnt+') treatCnt ('+treatCnt+')');
         }
 
         function addRow(rowNbr) {
-          alert('addRow('+rowNbr+')');
+//        alert('addRow('+rowNbr+')');
 /*
           for (var i = 0, row; row = tableObj.rows[i]; i++) {
              alert('row ('+i+') |'+row.innerHTML+'|');
@@ -228,11 +238,11 @@
           newRow.appendChild(treatCell);
           newRow.appendChild(treatCellQty);
           insertRowNbr++;
-          alert('insertRowNbr ('+insertRowNbr+')');
+//        alert('insertRowNbr ('+insertRowNbr+')');
         }
 
         function appendRow(cakeCnt, cookieCnt, treatCnt, itemCnt, iCategory, itemName) {
-          alert('appendRow('+cakeCnt+', '+cookieCnt+', '+treatCnt+', '+ itemCnt+', '+ iCategory+', '+ itemName+')');
+//        alert('appendRow('+cakeCnt+', '+cookieCnt+', '+treatCnt+', '+ itemCnt+', '+ iCategory+', '+ itemName+')');
           cakeId = 'cake'+cakeCnt;
           cookieId = 'cookie'+cookieCnt;
           treatId = 'treat'+treatCnt;
