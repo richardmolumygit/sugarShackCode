@@ -75,11 +75,9 @@
           currency: 'USD'
         });
         window.onload = function() {
-//        alert('loaded');
           addDetails();
           trDeleteId = ''
           for (var i = 0, row; row = tableObj.rows[i]; i++) {
-//           alert('row ('+i+') |'+row.innerHTML+'|');
              rowId = row.id;
              if (rowId.substring(0,4) == 'line') {
                 col = row.cells;
@@ -87,26 +85,12 @@
                 td2=col[2].innerHTML;
                 td4=col[4].innerHTML;
                 allTd = td0+td2+td4
-//              alert('allTd ('+allTd.length+') |'+allTd+'|');
                 if (allTd.length == 0) {
                    trDeleteId = rowId;
                 }
-/*
-                alert(row.innerHTML);
-                tdOut = '';
-                tdOut += col[0].id+'|'+col[0].innerHTML+'|\n';
-                tdOut += col[2].id+'|'+col[2].innerHTML+'|\n';
-                tdOut += col[4].id+'|'+col[4].innerHTML+'|\n';
-                alert(tdOut);
-*/
              } // if (rowId.substring(0,4) == 'line')
           } // for (var i = 0, row; row = tableObj.rows[i]; i++)
           if (trDeleteId != '') {
-/*
-             alert('trDeleteId |'+trDeleteId+'|');
-             rowToDelete = document.getElementById(trDeleteId);
-             tableObj.deleteRow(rowToDelete);
-*/
              document.getElementById(trDeleteId).remove();
           }
         }
@@ -255,31 +239,14 @@
           cakeItem = document.getElementById(cakeId);
           cookieItem = document.getElementById(cookieId);
           treatItem = document.getElementById(treatId);
-/*
-          alert('itemName |'+itemName+'|');
-          alert('cakeId |'+cakeId+'|');
-          alert('cakeItem.innerHTML |'+cakeItem.innerHTML+'|');
-*/
           if (iCategory == 'cake') {
              cakeItem.innerHTML = itemName;
-/*
-             cakeCnt++;
-             alert('cakeItem ('+cakeCnt+') |'+cakeItem.innerHTML+'|');
-*/
           }
           if (iCategory == 'cookie') {
              cookieItem.innerHTML = itemName;
-/*
-             cookieCnt++;
-             alert('cookieItem ('+cookieCnt+') |'+cookieItem.innerHTML+'|');
-*/
           }
           if (iCategory == 'treat') {
              treatItem.innerHTML = itemName;
-/*
-             treatCnt++;
-             alert('treatItem ('+treatCnt+') |'+treatItem.innerHTML+'|');
-*/
           }
         }
   

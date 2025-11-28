@@ -33,8 +33,8 @@
           <td colspan="2" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
         <tr>
-          <td id='tdHead1' style="text-align: center;"></td>
-          <td id='tdHead2' style="text-align: center;"></td>
+          <td id='tdHead20' style="text-align: center;"></td>
+          <td id='tdHead21' style="text-align: center;"></td>
         </tr>
         <tr>
 <?php
@@ -43,6 +43,8 @@
   $rowNbr = 0;
   $head1='';
   $head2='';
+  $headingsArray = []; // Initialize emmpty array
+  $trRowNbr = 2;
   while ($row = $queryResult->fetch_assoc()) {
      $rowNbr += 1;
      $catId = $row['id'];
@@ -50,7 +52,10 @@
      $itemName = $row['itemName'];
      $price = floatval($row['price']);
      $description = $row['description'];
+     $index = "tdHead" . $trRowNbr . $colNbr;
+     $headingsArray[$index] = $itemName;
      fwrite($fp,logTime()."itemName-".$itemName."-\n");
+     fwrite($fp,logTime()."index -".$index."-head".$trRowNbr.$colNbr." = |".$itemName."|\n");
      if ($rowNbr == 1) { $head1=$itemName; }
      if ($rowNbr == 2) { $head2=$itemName; }
      if ($colNbr == 0) {
@@ -65,8 +70,10 @@
             </a>
           </td>
 <?php
+       $colNbr++;
      } else {
        $colNbr = 0;
+       $trRowNbr++;
 ?>
           <td>
             <a href="javascript:changePages('<?= $catId; ?>')" class='image-button-container'>
@@ -77,6 +84,11 @@
               <input type='hidden' id='unitPrice<?php echo $catId; ?>' value='4.50'>
             </a>
           </td>
+        <tr>
+          <td id='tdHead<?= $trRowNbr ?>0' style="text-align: center;"></td>
+          <td id='tdHead<?= $trRowNbr ?>1' style="text-align: center;"></td>
+        </tr>
+        <tr>
 <?php
      }
      $colNbr += 1;
@@ -101,12 +113,14 @@
         </tr>
       </table>
       <script>
+        const tableObj = document.getElementById('mainTable');
         window.onload = function() {
-          var tdHead1 = document.getElementById('tdHead1');
-          var tdHead2 = document.getElementById('tdHead2');
-          head1='<?= $head1 ?>';
-          head2='<?= $head2 ?>';
-          if (head1 != '') { tdHead1.innerHTML = head1; }
-          if (head2 != '') { tdHead2.innerHTML = head2; }
+<?php
+  foreach ($headingsArray as $id=>$value) {
+    fwrite($fp,logTime()."id-".$id."-value-".$value."-\n");
+    echo "          document.getElementById('".$id."').innerHTML = '".$value."';\n";
+  }
+?>
         }
       </script>
+
