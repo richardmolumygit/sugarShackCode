@@ -32,6 +32,10 @@
          width: 40%; /* Sets the image width to 50% of its parent container */
          height: auto; /* Maintains aspect ratio */
        }
+       .bordered-row td {
+         border: 1px solid black; /* Apply border to cells in this row */
+         border-collapse: collapse; /* Only show one line */
+       }
       </style>
       <script>
         const cookieSelect = document.getElementById('cookies');
@@ -114,7 +118,7 @@
         <tr id='head2'>
           <td colspan="6" style="text-align: center;"><h3>Custom Orders</h3></td>
         </tr>
-        <tr id='head2' style='border:1px solid #000; border-collapse: collapse'>
+        <tr id='head2' class='bordered-row'>
           <td sytle='align: left'><b>Cookies</b></td>
           <td><b>Qty</b></td>
           <td sytle='align: left'><b>Cakes</b></td>
@@ -122,7 +126,7 @@
           <td sytle='align: left'><b>Treats</b></td>
           <td><b>Qty</b></td>
         </tr>
-        <tr id='line0' style='border: 1px'>
+        <tr id='line0' class='bordered-row'>
           <td id='cookie0'></td>
           <td id='cookieQty0'>
             <input id='cookieInput0' style='width:40px' value=0>
@@ -215,7 +219,6 @@
           const cakeQty = "<input id='cakeInput"+rowNbr+"' style='width:40px' value='0'>";
           const cookieQty = "<input id='cookieInput"+rowNbr+"' style='width:40px' value='0'>";
           const treatQty = "<input id='treatInput"+rowNbr+"' style='width:40px' value='0'>";
-          newRow.setAttribute('id','line'+rowNbr);
           const cakeCell = document.createElement("td");
           cakeCell.setAttribute('id','cake'+rowNbr);
           const cakeCellQty = document.createElement("td");
@@ -231,6 +234,9 @@
           const treatCellQty = document.createElement("td");
           treatCellQty.setAttribute('id','treatQty'+rowNbr);
           treatCellQty.innerHTML = treatQty;
+          newRow.setAttribute('id','line'+rowNbr);
+          newRow.setAttribute('class','bordered-row');
+
           newRow.appendChild(cookieCell);
           newRow.appendChild(cookieCellQty);
           newRow.appendChild(cakeCell);
