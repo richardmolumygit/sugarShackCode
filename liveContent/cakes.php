@@ -1,7 +1,7 @@
 <?php
   require "common_functions.php";
 
-  $log_file = "mainPage.log";
+  $log_file = "cakes.log";
   $fp = fopen($log_file,'w');
 
   $sessionId = session_id();
@@ -12,9 +12,9 @@
   $numRows = 0;
   if ($conn) {
      // INNER JOIN catalog with shopping cart
-     $query = "SELECT * from catalog 
-               WHERE imageName 
-               IS NOT NULL AND TRIM(imageName) <> ''";
+     $query = "SELECT * FROM catalog
+               WHERE category = 'cake'
+               AND imageName IS NOT NULL AND TRIM(imageName) <> ''";
      echo "<!--query-".$query."-->\n";
 
      $queryResult = $conn->query($query);
@@ -41,6 +41,8 @@
   $colNbr = 0;
   $numRows = 0;
   $rowNbr = 0;
+  $head1='';
+  $head2='';
   while ($row = $queryResult->fetch_assoc()) {
      $rowNbr += 1;
      $catId = $row['id'];
@@ -48,6 +50,7 @@
      $itemName = $row['itemName'];
      $price = floatval($row['price']);
      $description = $row['description'];
+     fwrite($fp,logTime()."itemName-".$itemName."-\n");
      if ($rowNbr == 1) { $head1=$itemName; }
      if ($rowNbr == 2) { $head2=$itemName; }
      if ($colNbr == 0) {
@@ -107,4 +110,3 @@
           if (head2 != '') { tdHead2.innerHTML = head2; }
         }
       </script>
-
