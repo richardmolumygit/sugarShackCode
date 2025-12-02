@@ -1,3 +1,8 @@
+GRANT USAGE ON *.* TO `ricmol76_richmolumby`@`%`	
+GRANT ALL PRIVILEGES ON `ricmol76_richmolumby`.* TO `ricmol76_richmolumby`@`%`	
+FLUSH PRIVILEGES;
+
+
 CREATE TABLE users (
 username VARCHAR( 50 ) NOT NULL ,
 password VARCHAR( 50 ) NOT NULL ,
@@ -36,7 +41,7 @@ imageName VARCHAR( 50 ) NOT NULL ,
 itemName VARCHAR( 50 ) NOT NULL ,
 price DECIMAL(8,2) NOT NULL ,
 category VARCHAR( 50 ) NOT NULL ,
-description VARCHAR( 255 ) CHARACTER SET utf8
+description VARCHAR( 1024 ) CHARACTER SET utf8
 ) ENGINE = MYISAM ;
 
 
@@ -54,8 +59,8 @@ CREATE EVENT removeOldCartItems
 ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR
 DO
   DELETE FROM shoppingCart
-# WHERE TIMESTAMPDIFF(HOUR, NOW(),shoppingCart.creation_date)>24;
   WHERE creation_date < NOW() - INTERVAL 1 DAY
+# WHERE TIMESTAMPDIFF(HOUR, NOW(),shoppingCart.creation_date)>24;
 
 #show events;
 #drop event removeOldCartItems
@@ -79,10 +84,30 @@ rich-molumby.com
 ns1.freehostia.com
 ns2.freehostia.com 
 
-ns-1581.awsdns-05.co.uk.
-ns-1374.awsdns-43.org.
-ns-394.awsdns-49.com.
-ns-876.awsdns-45.net.
+ns1.infinityfree.com
+ns2.infinityfree.com
+
+ns-1581.awsdns-05.co.uk
+ns-1374.awsdns-43.org
+ns-394.awsdns-49.com
+ns-876.awsdns-45.net
 
 s3-website-us-east-1.amazonaws.com. A record - old
 
+richardmolumbycooking@gmail.com
+Rebevc@25946157
+
+GRANT USAGE ON *.* TO `ricmol0_richmol76`@`%`
+GRANT ALL PRIVILEGES ON `ricmol0_richmol76`.* TO `ricmol0_richmol76`@`%`
+
+ftp 
+hostname: ftpupload.net
+userName: if0_40216765
+password: b6ZQF3iDIM
+
+Record name: sugarshacktreats.com
+Record type: A
+Value: s3-website-us-east-1.amazonaws.com
+Alias: Yes
+TTL (seconds): -
+Routing policy: Simple

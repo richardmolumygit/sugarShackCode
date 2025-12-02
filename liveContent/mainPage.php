@@ -28,7 +28,9 @@
 
       <link rel="stylesheet" type="text/css" href="css/overlay.css">
       <script src=js/changePages.js></script>
-      <table id='mainTable'>
+      <table id='mainTable' border=1 sytle='border-collapse: collapse'>
+        <col style="width: 250px;">
+        <col style="width: 250px;">
         <tr>
           <td colspan="2" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
@@ -58,7 +60,6 @@
      if ($rowNbr == 1) { $head20=$itemName; }
      if ($rowNbr == 2) { $head21=$itemName; }
 */
-     if ($colNbr == 0) {
 ?>
           <td style="text-align: center;">
             <a href="javascript:changePages('<?= $catId; ?>')" class='image-button-container'>
@@ -70,20 +71,12 @@
             </a>
           </td>
 <?php
+     if ($colNbr == 0) {
        $colNbr++;
      } else {
        $colNbr = 0;
        $trRowNbr++;
 ?>
-          <td>
-            <a href="javascript:changePages('<?= $catId; ?>')" class='image-button-container'>
-              <img id='image<?= $catId; ?>' src='images/<?= $imageName; ?>' alt='<?= $itemName ?>' class='button-image' width='200' height='200'>
-              <div class="overlay">
-                <div id='description<?php echo $catId; ?>' class="overlay-text"><?= $description ?></div>
-              </div>
-              <input type='hidden' id='unitPrice<?php echo $catId; ?>' value='4.50'>
-            </a>
-          </td>
         </tr>
         <tr>
           <td id='tdHead<?= $trRowNbr ?>0' style="text-align: center;"></td>
