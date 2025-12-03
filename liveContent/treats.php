@@ -1,7 +1,7 @@
 <?php
   require "common_functions.php";
 
-  $log_file = "cakes.log";
+  $log_file = "treats.log";
   $fp = fopen($log_file,'w');
 
   $sessionId = session_id();
@@ -13,7 +13,7 @@
   if ($conn) {
      // INNER JOIN catalog with shopping cart
      $query = "SELECT * from catalog 
-               WHERE category = 'cake'
+               WHERE category = 'treat'
                AND imageName IS NOT NULL AND TRIM(imageName) <> ''";
      echo "<!--query-".$query."-->\n";
 

@@ -285,7 +285,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
             if (rowId.substring(0,7) == 'catItem') {
                nbrItems += 1;
             } // if (trId.substring(0,7) == 'catItem')
-          }); // trRows.forEach(tow =>
+          }); // trRows.forEach(row =>
 
 //        alert('nbrItems ('+nbrItems+')');
 

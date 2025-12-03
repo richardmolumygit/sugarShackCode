@@ -91,9 +91,7 @@
         </tr>
         <tr>
           <td style="text-align: center;">&nbsp;</td>
-
           <td style="text-align: center;">&nbsp;</td>
-
         </tr>
         <!--TR_EMPTY-->
         <tr>
@@ -111,6 +109,9 @@
         window.onload = function() {
 <?php
   foreach ($headingsArray as $id=>$value) {
+//  if (substr($id,-1) == "1") {
+//     fwrite($fp,logTime()."lastChar-".substr($id,-1)."-\n");
+//  }
     fwrite($fp,logTime()."id-".$id."-value-".$value."-\n");
     echo "          document.getElementById('".$id."').innerHTML = '".$value."';\n";
   }

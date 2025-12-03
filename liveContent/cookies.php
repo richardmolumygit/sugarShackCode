@@ -1,7 +1,7 @@
 <?php
   require "common_functions.php";
 
-  $log_file = "cakes.log";
+  $log_file = "cookies.log";
   $fp = fopen($log_file,'w');
 
   $sessionId = session_id();
@@ -13,7 +13,7 @@
   if ($conn) {
      // INNER JOIN catalog with shopping cart
      $query = "SELECT * from catalog 
-               WHERE category = 'cake'
+               WHERE category = 'cookie'
                AND imageName IS NOT NULL AND TRIM(imageName) <> ''";
      echo "<!--query-".$query."-->\n";
 
@@ -150,7 +150,9 @@
           // Ensure entire column is empty of data before deleteing it.
           if (colToDelete < 99999) {
              rows.forEach((row, rowIndex) => {
-               const cells = row.querySelectorAll('td');                                                     cells.forEach((cell, cellIndex) => {                                                            cellText = cell.innerHTML;
+               const cells = row.querySelectorAll('td');
+               cells.forEach((cell, cellIndex) => {
+                 cellText = cell.innerHTML;
                  if (cellIndex == colToDelete) {
                     if (cellText != '') {
                        colToDelete = 99999;
