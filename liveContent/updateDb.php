@@ -57,9 +57,10 @@
              $href = $line[0];
              $name = $line[1];
              $price = $line[2];
-             $category = $line[3];
-             $description = $line[4];
-             $misc = $line[5];
+             $status = $line[3];
+             $category = $line[4];
+             $description = $line[5];
+             $misc = $line[6];
 /*
              fwrite($fp,logTime()
               ."href-".$href
@@ -70,7 +71,7 @@
               ."-misc-".$misc
               ."-\n");
 */
-             $addRow = "INSERT INTO catalog (id,imageName,itemName,price,category,description) VALUES ('".$itemNbr."','".$href."','".$name."','".$price."','".$category."','".$description."')";
+             $addRow = "INSERT INTO catalog (id,imageName,itemName,price,status,category,description) VALUES ('".$itemNbr."','".$href."','".$name."','".$price."','".$status."','".$category."','".$description."')";
              echo "<!--addRow-".$addRow."-->\n";
 //           fwrite($fp,logTime()."addRow-".$addRow."-\n");
              if ( mysqli_query($conn, $addRow) ) {

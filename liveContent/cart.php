@@ -34,7 +34,8 @@
          height: auto; /* Maintains aspect ratio */
        }
       </style>
-      <script src="https://www.paypal.com/sdk/js?client-id=AWLq1jpoQe05jZZ2YCg7DKlNPfNJ8XM4Hx3m2TDRqYfkEIYvQjSBYMiDNk8jmlZKxg7EgdFamNLRbRLY&currency=USD&debug=true"></script>
+      <!--script src="https://www.paypal.com/sdk/js?client-id=AWLq1jpoQe05jZZ2YCg7DKlNPfNJ8XM4Hx3m2TDRqYfkEIYvQjSBYMiDNk8jmlZKxg7EgdFamNLRbRLY&currency=USD&debug=true"></script-->
+      <script src="https://www.paypal.com/sdk/js?client-id=AbUIXL6Uo6DiLdXoywaYmdM67Fh7Oj9rEGRq4rNmWl0qyXVhPtibC2yBsf5RHTuxJOW8Exxw2ydj0jWK&currency=USD&debug=true"></script>
       <script>
         nbrRows = <?= $numRows; ?>;
         var cartItemsArray = [

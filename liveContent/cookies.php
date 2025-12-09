@@ -14,6 +14,7 @@
      // INNER JOIN catalog with shopping cart
      $query = "SELECT * from catalog 
                WHERE category = 'cookie'
+               AND status='active'
                AND imageName IS NOT NULL AND TRIM(imageName) <> ''";
      echo "<!--query-".$query."-->\n";
 
@@ -28,7 +29,7 @@
 
       <link rel="stylesheet" type="text/css" href="css/overlay.css">
       <script src=js/changePages.js></script>
-      <table id='mainTable' border=1 sytle='border-collapse: collapse'>
+      <table id='mainTable'>
         <col style="width: 250px;">
         <col style="width: 250px;">
         <tr>

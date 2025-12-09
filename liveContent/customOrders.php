@@ -14,7 +14,9 @@
      $query = "SELECT 
                  id, itemName, imageName, itemName, price, category, description 
                  FROM catalog 
-                 WHERE imageName IS NOT NULL AND TRIM(imageName) <> ''
+                 WHERE 
+                 status='active' AND
+                 imageName IS NOT NULL AND TRIM(imageName) <> ''
                  ORDER BY category, itemName";
      echo "<!--query-".$query."-->\n";
      fwrite($fp,logTime()."sessionId-".$sessionId."-\n");
