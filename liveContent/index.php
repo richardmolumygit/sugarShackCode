@@ -1,3 +1,3 @@
 <?php
-  header("Location:stage.php");
+  header("Location:stage.html");
 ?>

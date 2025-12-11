@@ -1,22 +1,19 @@
 <?php
-  require "../common_functions.php";
+  require "common_functions.php";
+
+  $log_file = "addToCart.log";
+  $fp = fopen($log_file,'w');
 
   $sessionId = session_id();
-  echo "<!--sessionId-".$sessionId."-->\n";
-    
+  fwrite ($fp,logTime()."-sessionId-".$sessionId."-\n");
+
   fwrite($fp,logTime()."begin-POST-values\n");
-  echo "<!--begin-POST-values-->\n";
   foreach ($_POST as $id=>$value) {
      fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
-     echo "<!--id-".$id."-value-".$value."-><br>\n";
   }
-  echo "<!--end-POST-values-->\n";
-  echo "<!--begin-GET-values-->\n";
   foreach ($_GET as $id=>$value) {
      fwrite($fp,logTime()."id<".$id.">value<".$value.">\n");
-     echo "<!--id-".$id."-value-".$value."-><br>\n";
   }
-  echo "<!--end-GET-values-->\n";
   unset($qtyInput);
   unset($postId);
   unset($itemNbr);
@@ -41,20 +38,12 @@
   } else if (isset($_GET['radioChoice'])) {
      $radioChoice = $_GET['radioChoice'];
   }
-  echo "<!--radioChoice-".$radioChoice."-->\n";
-  echo "<!--itemNbr-".$itemNbr."-->\n";
-  echo "<!--qtyInput-".$qtyInput."-->\n";
   $conn = db_connect();
-  if (empty($radioChoice)) {
-     echo "<!--radioChoice-empty-->\n";
-  } elseif (empty($qtyInput)) {
-     echo "<!--qtyInput-empty-->\n";
-  }
-  if (isset($radioChoice)) {
-     echo "<!--radioChoice-isset-".$radioChoice."-->\n";
-  }
   $qty='';
   if ($conn) {
+     $log_file = "addToCart.log";
+     $fp = fopen($log_file,'w');
+     fwrite($fp,logTime()."-start-\n");
      if (empty($radioChoice)) {
         if (isset($qtyInput)) {
            $qty = $qtyInput;
@@ -65,17 +54,15 @@
         }
      }
      if (! empty($qty) ) {
-        $insertStmt = "INSERT INTO shopingcart (tableId, cartId, itemNbr, quantity) VALUES (NULL,'".$sessionId."','".$itemNbr."','".$qty."')";
-        echo "<!--insertStmt-".$insertStmt."-->\n";
+        $insertStmt = "INSERT INTO shoppingCart (tableId, cartId, itemNbr, quantity) VALUES (NULL,'".$sessionId."','".$itemNbr."','".$qty."')";
+        fwrite($fp,"--insertStmt-".$insertStmt."-\n");
         if ($conn->query($insertStmt) === TRUE ) {
-           echo "<!--Sucess!-->\n";
+           fwrite($fp,"-Success-\n");
         } else {
-           echo "<!--Failure-->\n";
+           fwrite($fp,"-Failure-\n");
         }
      }
+     fclose($fp);
   } // if $(conn)
-  echo "<!--https://rich-molumby.fwh.is/www/-->\n";
+  header('Location: mainPage.php');
 ?>
-<script>
-  window.location.replace('https://rich-molumby.fwh.is/www/');
-</script>
