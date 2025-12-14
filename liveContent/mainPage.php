@@ -12,18 +12,33 @@
   $numRows = 0;
   if ($conn) {
      // INNER JOIN catalog with shopping cart
-     $query = "SELECT * from catalog 
+     $catQuery = "SELECT * from catalog 
                WHERE
                status='active' AND
                imageName IS NOT NULL AND TRIM(imageName) <> ''";
-     echo "<!--query-".$query."-->\n";
+     echo "<!--catQuery-".$catQuery."-->\n";
+     // INNER JOIN catalog with shopping cart
+     $cartQuery = "SELECT
+               c.id, c.imageName, c.itemName, c.price, c.description,
+               s.quantity, s.cartId, s.tableId
+               FROM catalog c
+               INNER JOIN shoppingCart s
+               ON c.id = s.itemNbr
+               WHERE s.cartid = '".$sessionId."'";
+     echo "<!--cartQuery-".$cartQuery."-->\n";
 
-     $queryResult = $conn->query($query);
-     $numRows = $queryResult->num_rows;
-     echo "<!--numRows-".$numRows."-->\n";
+     $catResult = $conn->query($catQuery);
+     $catNumRows = $catResult->num_rows;
+     echo "<!--catNumRows-".$catNumRows."-->\n";
      fwrite($fp,logTime()."sessionId-".$sessionId."-\n");
-     fwrite($fp,logTime()."query-".$query."-\n");
-     fwrite($fp,logTime()."numRows-".$numRows."-\n");
+     fwrite($fp,logTime()."catQuery-".$catQuery."-\n");
+     fwrite($fp,logTime()."catNumRows-".$catNumRows."-\n");
+
+     $cartResult = $conn->query($cartQuery);
+     $cartNumRows = $cartResult->num_rows;
+     echo "<!--cartNumRows-".$cartNumRows."-->\n";
+     fwrite($fp,logTime()."cartQuery-".$cartQuery."-\n");
+     fwrite($fp,logTime()."cartNumRows-".$cartNumRows."-\n");
   } // if $(conn)
 ?>
 
@@ -46,7 +61,7 @@
   $rowNbr = 0;
   $trRowNbr = 2;
   $headingsArray = []; // Initialize emmpty array
-  while ($row = $queryResult->fetch_assoc()) {
+  while ($row = $catResult->fetch_assoc()) {
      $rowNbr += 1;
      $catId = $row['id'];
      $imageName = $row['imageName'];
@@ -87,7 +102,7 @@
 <?php
      }
 //   $colNbr += 1;
-  } // while ($row = $queryResult->fetch_assoc())
+  } // while ($row = $catResult->fetch_assoc())
 ?>
         </tr>
         <tr>
@@ -117,6 +132,16 @@
     echo "          document.getElementById('".$id."').innerHTML = '".$value."';\n";
   }
 ?>
+          const targetFrame = top.leftNav;
+          // Check if the frame and its document are accessible
+          if (targetFrame && targetFrame.document) {
+            // Access an element by its ID within the *target* frame's document
+            const elementInTargetFrame = targetFrame.document.getElementById('cartId');
+
+            if (elementInTargetFrame) {
+              elementInTargetFrame.textContent = '<?= $cartNumRows ?>';
+            }
+          }
         }
       </script>
 

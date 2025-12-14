@@ -25,6 +25,7 @@
      $queryResult = $conn->query($query);
      $queryResult1 = $conn->query($query);
      $numRows = $queryResult->num_rows;
+     fwrite($fp,logTime()."numRows-".$numRows."-\n");
      echo "<!--numRows-".$numRows."-->\n";
   } // if $(conn)
 ?>
@@ -73,7 +74,7 @@
       </script>
       <table id='mainTable'>
         <tr id='head1'>
-          <td colspan="5" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
+          <td colspan="6" style="text-align: center;"><h2>Sugar Shack Treats</h2></td>
         </tr>
         <tr style display: none' id='placeHolder'></tr>
 <?php
@@ -85,6 +86,7 @@
           <td style='text-align: left'>Item</td>
           <td style='text-align: left'>Quantity</td>
           <td style='text-align: left'>Price</td>
+          <td style='text-align: left'>&nbsp;</td>
           <td style='text-align: left'>Total</td>
           <td style='text-align: left'>&nbsp;</td>
         </tr>
@@ -145,6 +147,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
             </select>
           </td>
           <td style='text-align: left' id='price<?= $displayId ?>' name='price<?= $displayId ?>'>$<?= $price; ?></td>
+          <td>&nbsp;</td>
           <td style='text-align: right' id='total<?= $displayId ?>' name='total<?= $displayId ?>'>$<?= $total; ?></td>
           <td style='text-align: right' id='delete_<?= $displayId ?>' name='delete_<?= $displayId ?>' onclick='deleteCartItem(this)'>Delete</td>
           <td style='display: none' id='tableId<?= $displayId ?>'><?= $tableId ?></td>
@@ -156,33 +159,33 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
         } // ($row = $queryResult1->fetch_assoc())
 ?>
         <tr id='totals'>
-          <td colspan="2" style='text-align: right'>&nbsp;</td>
-          <td style='text-align: left'>Total</td>
+          <td colspan='2' style='text-align: right'>&nbsp;</td>
+          <td colspan='2' style='text-align: left'>Total</td>
           <td colspan='2' id='totalPrice' name='totalPrice' style='text-align: left'>&nbsp;</td>
         </tr>
         <tr id='spaces'>
-          <td colspan="5" style='text-align: center'>&nbsp;</td>
+          <td colspan="6" style='text-align: center'>&nbsp;</td>
         </tr>
         <tr id='payPal-button'>
-          <td colspan="5" style='text-align: center'><div id="paypal-button-container"></div></td>
+          <td colspan="6" style='text-align: center'><div id="paypal-button-container"></div></td>
         </tr>
 <?php
   } else {
 ?>
         <tr id='emptyCart'>
-          <td colspan="5" style='text-align: center'><h2>Your cart is empty</h2></td>
+          <td colspan="6" style='text-align: center'><h2>Your cart is empty</h2></td>
         </tr>
 <?php
   }
 ?>
         <tr id='emailLine'>
-          <td colspan="5" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+          <td colspan="6" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
         </tr>
         <tr id='spacesAgain'>
-          <td colspan="5" style='text-align: center'>&nbsp;</td>
+          <td colspan="6" style='text-align: center'>&nbsp;</td>
         </tr>
         <tr id='logo'>
-          <td colspan="5" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
+          <td colspan="6" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
         </tr>
       </table>
       <script>
@@ -228,10 +231,12 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
  
         }).render('#paypal-button-container');
 
+/*
         document.getElementById('confirmPay').addEventListener('click', () => {
           // When user clicks your button, trigger the PayPal flow
           paypalButtons.click(); // this call works if library supports it
         });
+*/
 
         function deleteCartItem(tdItem) {
   
@@ -305,7 +310,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
                 payPalButton = document.getElementById('payPal-button');
                 payPalButton.parentNode.removeChild(payPalButton);
                 placeHolder = document.getElementById('placeHolder');
-                placeHolder.innerHTML = '<td colspan="5" style="text-align: center"><h2>Your cart is empty</h2></td>';
+                placeHolder.innerHTML = '<td colspan="6" style="text-align: center"><h2>Your cart is empty</h2></td>';
              } catch (error) {
              }
           } // if (nbrRows == 0)
@@ -393,6 +398,20 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
            showTotalasMoney(totalStr,totalVal);
            showTotalasMoney('totalPrice',totalPrice);
         }
+        alert('bottom');
+        const targetFrame = top.leftNav;
+        // Check if the frame and its document are accessible
+        if (targetFrame && targetFrame.document) {
+           // Access an element by its ID within the *target* frame's document
+           const elementInTargetFrame = targetFrame.document.getElementById('cartId');
+           if (elementInTargetFrame) {
+              elementInTargetFrame.textContent = '<?= $numRows ?>';
+           } else {
+              alert('elementInTargetFrame is null');
+           } // if (elementInTargetFrame)
+        } else { // if (targetFrame && targetFrame.document)
+           alert('targetFrame or targetFrame.document is null');
+        } // if (targetFrame && targetFrame.document)
       </script>
 <?php
   fclose($fp);
