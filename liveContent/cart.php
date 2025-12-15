@@ -196,6 +196,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
         // Calculate total
         var totalAmount = cartItemsArray.reduce((sum, item) => sum + item.unit_amount * item.quantity, 0);
         paypal.Buttons({
+
           // Create the order on the server (or here in client-side demo)
           createOrder: function(data, actions) {
             return actions.order.create({
@@ -213,15 +214,30 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
                   quantity: item.quantity
                 }))
               }]
+
             });
+
+            // Loop through all cart items and delete them
+            trRows = mainTableObj.querySelectorAll('tr');
+            trRows.forEach(row => {
+              rowId = row.id;
+              if (rowId.substring(0,7) == 'catItem') {
+                 deleteCartItem(row);
+              } // if (trId.substring(0,7) == 'catItem')
+            }); // trRows.forEach(row =>
+
           },
 
           // Capture the order when the buyer approves the transaction
           onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
               console.log('Transaction completed by ' + details.payer.name.given_name);
-              alert('Payment successful! Thank you, ' + details.payer.name.given_name);
               // TODO: Send details to your server for fulfillment
+
+              alert('Payment successful! Thank you, ' + details.payer.name.given_name);
+
+              window.location.href = "clearCart.php";
+
             });
           },
 
@@ -245,6 +261,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
           tdNbr = tdItem.id.split('_')[1];
           arrayStr = 'arrayId' + tdNbr;
           cartStr = 'tableId' + tdNbr;
+          alert('tdItem |'+tdItem+'| cartStr |'+cartStr+'|');
           cartId = document.getElementById(cartStr).innerHTML;
           arrayId = document.getElementById(arrayStr).innerHTML;
           trParent = tdItem.parentElement 	// Get tr for this td
@@ -398,7 +415,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
            showTotalasMoney(totalStr,totalVal);
            showTotalasMoney('totalPrice',totalPrice);
         }
-        alert('bottom');
+//     alert('bottom');
         const targetFrame = top.leftNav;
         // Check if the frame and its document are accessible
         if (targetFrame && targetFrame.document) {

@@ -40,6 +40,7 @@ id SMALLINT NOT NULL ,
 imageName VARCHAR( 50 ) NOT NULL ,
 itemName VARCHAR( 50 ) NOT NULL ,
 price DECIMAL(8,2) NOT NULL ,
+status VARCHAR( 10 ) NOT NULL ,
 category VARCHAR( 50 ) NOT NULL ,
 description VARCHAR( 1024 ) CHARACTER SET utf8
 ) ENGINE = MYISAM ;
