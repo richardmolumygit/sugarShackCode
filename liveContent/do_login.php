@@ -1,6 +1,8 @@
 <?php
   echo "<!--do_login.php-->\n";
   require "common_functions.php";
+  $log_file = "do_login.log";
+  $fp = fopen($log_file,'w');
   //
   function tryAgain($username,$msg) {
     $_SESSION['failure'] = $msg;
