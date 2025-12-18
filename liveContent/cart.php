@@ -35,8 +35,13 @@
          height: auto; /* Maintains aspect ratio */
        }
       </style>
+<?php
+/*
       <!--script src="https://www.paypal.com/sdk/js?client-id=AWLq1jpoQe05jZZ2YCg7DKlNPfNJ8XM4Hx3m2TDRqYfkEIYvQjSBYMiDNk8jmlZKxg7EgdFamNLRbRLY&currency=USD&debug=true"></script-->
       <script src="https://www.paypal.com/sdk/js?client-id=AbUIXL6Uo6DiLdXoywaYmdM67Fh7Oj9rEGRq4rNmWl0qyXVhPtibC2yBsf5RHTuxJOW8Exxw2ydj0jWK&currency=USD&debug=true"></script>
+*/
+?>
+      <script src="https://www.paypal.com/sdk/js?client-id=AWNcX7ZdJhWwLtdHByLO4Fs_o42CFGCXcrmLaPq94vTkJDyS1zYdUidWwCCYmv5Sdt1cVIE79tzcYVfL&currency=USD&debug=true"></script>
       <script>
         nbrRows = <?= $numRows; ?>;
         var cartItemsArray = [
@@ -415,7 +420,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
            showTotalasMoney(totalStr,totalVal);
            showTotalasMoney('totalPrice',totalPrice);
         }
-//     alert('bottom');
+/*
         const targetFrame = top.leftNav;
         // Check if the frame and its document are accessible
         if (targetFrame && targetFrame.document) {
@@ -429,6 +434,7 @@ echo "<!--price-".$price."-quantity-|".$quantity."|-->\n";
         } else { // if (targetFrame && targetFrame.document)
            alert('targetFrame or targetFrame.document is null');
         } // if (targetFrame && targetFrame.document)
+*/
       </script>
 <?php
   fclose($fp);
