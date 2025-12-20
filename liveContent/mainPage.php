@@ -119,6 +119,9 @@
         <tr>
           <td colspan="2" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
         </tr>
+        <tr>
+          <td colspan="2" style="text-align: center;">These products are homemade and not subject to state inspection.</td>
+        </tr>
       </table>
       <script>
         const tableObj = document.getElementById('mainTable');
