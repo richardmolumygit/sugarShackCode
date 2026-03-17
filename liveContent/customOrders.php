@@ -127,7 +127,7 @@
           </td>
         </tr>
         <tr id='emailLine'>
-          <td colspan="6" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+          <td colspan="6" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreat@gmail.com">SugarShackTreat@gmail.com</a></td>
         </tr>
         <tr id='spacesAgain'>
           <td colspan="6" style='text-align: center'>&nbsp;</td>

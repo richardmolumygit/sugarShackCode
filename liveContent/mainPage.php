@@ -94,6 +94,9 @@
        $trRowNbr++;
 ?>
         </tr>
+        <tr rowspan='4'>
+          <td colspan="2">&nbsp;</td>
+        </tr>
         <tr>
           <td id='tdHead<?= $trRowNbr ?>0' style="text-align: center;"></td>
           <td id='tdHead<?= $trRowNbr ?>1' style="text-align: center;"></td>
@@ -114,7 +117,7 @@
           <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="2" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreats@gmail.com">SugarShackTreats@gmail.com</a></td>
+          <td colspan="2" style="text-align: center;">Email us for questions at: <a href="mailto:SugarShackTreat@gmail.com">SugarShackTreat@gmail.com</a></td>
         </tr>
         <tr>
           <td colspan="2" style="text-align: center;"><img id='finalLogo' src="images/finalLogoSept2025.jpg"></td>
